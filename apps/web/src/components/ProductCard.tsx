@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ExternalLink, MapPinned, ScanFace, Sparkles } from "lucide-react";
+import { ArrowRight, Car, ExternalLink, MapPinned, ScanFace, ShieldCheck, Sparkles, Wrench, Zap, Hammer } from "lucide-react";
 import type { Product } from "@apricity/shared";
 import { productHref } from "@/lib/api";
 
@@ -26,8 +26,9 @@ function Preview({ slug }: { slug: string }) {
       )}
       {slug !== "matrix-track-2" && slug !== "matrix-track" && (
         <div className="absolute inset-0 grid grid-cols-4 place-items-center gap-3 p-6">
-          {Array.from({ length: 8 }, (_, i) => <span key={i} className="hero-pulse h-8 w-8 rounded-lg bg-accent/25" style={{ animationDelay: `${i * 0.25}s` }} />)}
-          <Sparkles className="absolute text-accent" size={36} />
+          {[Sparkles, Wrench, Car, ShieldCheck, Zap, Hammer, Sparkles, Car].map((I, i) => (
+            <span key={i} className="hero-pulse grid h-11 w-11 place-items-center rounded-xl bg-accent/20 text-accent" style={{ animationDelay: `${i * 0.25}s` }}><I size={22} /></span>
+          ))}
         </div>
       )}
     </div>

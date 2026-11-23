@@ -3,13 +3,14 @@ import Link from "next/link";
 import type { Settings } from "@apricity/shared";
 
 export function Footer({ settings: s }: { settings: Settings }) {
-  const link = "inline-block py-1.5 text-paper/80 hover:text-accent";
+  const link = "inline-block py-1.5 text-paper/80 transition hover:translate-x-1 hover:text-accent";
   return (
-    <footer className="on-dark bg-ink text-paper">
+    <footer className="on-dark relative bg-ink text-paper grid-bg">
+      <div className="h-1 bg-gradient-to-r from-transparent via-accent to-transparent" aria-hidden />
       <div className="container-x grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <Image src="/apricity-logo.png" alt={s.name} width={72} height={60} />
-          <p className="mt-4 max-w-sm text-sm text-paper/70">{s.name} is a {s.parentCompany} company.</p>
+          <p className="mt-4 max-w-sm text-base text-paper/80">{s.name} is a {s.parentCompany} company.</p>
         </div>
         <nav aria-label="Company">
           <h2 className="eyebrow mb-3">Company</h2>

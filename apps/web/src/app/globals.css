@@ -14,8 +14,8 @@
 }
 
 @layer components {
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors; }
-  .btn-primary { @apply bg-accent text-ink hover:bg-amber-400; }
+  .btn { @apply inline-flex transition-all duration-200 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold; }
+  .btn-primary { @apply bg-accent text-ink shadow-lg shadow-accent/20 hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-accent/40; }
   .btn-dark { @apply bg-ink text-paper hover:bg-ink-700; }
   .btn-ghost { @apply border border-ink/30 hover:border-ink/70; }
   .on-dark .btn-ghost { @apply border-paper/40 hover:border-paper; }
@@ -32,7 +32,7 @@
 @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes dash-flow { to { stroke-dashoffset: -36; } }
 @keyframes step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(46px); } }
+@keyframes scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(var(--d, 46px)); } }
 .float-slow { animation: float-slow 6s ease-in-out infinite; }
 .dash-flow { animation: dash-flow 2s linear infinite; }
 .step-in { animation: step-in 0.35s ease-out; }

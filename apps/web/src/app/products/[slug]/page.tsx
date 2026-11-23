@@ -7,6 +7,7 @@ import { LiveCommand } from "@/components/LiveCommand";
 import { AuditFlow } from "@/components/AuditFlow";
 import { ModuleExplorer } from "@/components/ModuleExplorer";
 import { Reveal } from "@/components/Reveal";
+import { FaceScanHero } from "@/components/FaceScanHero";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -55,6 +56,7 @@ export default async function ProductPage({ params }: Props) {
           )}
           </div>
           {p.slug === "matrix-track-2" && <LiveCommand />}
+          {p.slug === "matrix-track" && <FaceScanHero />}
         </div>
       </section>
 
@@ -100,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
       {p.audience.length > 0 && (
         <section className="bg-paper-200 py-14">
           <div className="container-x"><h2 className="eyebrow">Who it is for</h2>
-            <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium">{a}</li>)}</ul>
+            <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium transition hover:-translate-y-1 hover:shadow-lg">{a}</li>)}</ul>
           </div>
         </section>
       )}
@@ -110,7 +112,7 @@ export default async function ProductPage({ params }: Props) {
           <h2 className="eyebrow">FAQ</h2>
           <div className="mt-6 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white">
             {c.faq.map((f) => (
-              <details key={f.q} className="group p-5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
+              <details key={f.q} className="group p-5 open:bg-accent/5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
             ))}
           </div>
         </section>

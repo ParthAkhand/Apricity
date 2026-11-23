@@ -5,3 +5,8 @@ node_modules/
 .next/
 dist/
 *.log
+graphify-out/cache/
+graphify-out/20*/
+graphify-out/
+CLAUDE.md
+docs/

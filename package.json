@@ -1,0 +1,26 @@
+{
+  "name": "apricity-digital",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "build:shared": "npm run build -w @apricity/shared",
+    "dev": "npm run build:shared && concurrently -n api,web -c blue,magenta \"npm run dev -w @apricity/api\" \"npm run dev -w @apricity/web\"",
+    "build": "npm run build:shared && npm run build -w @apricity/api && npm run build -w @apricity/web",
+    "lint": "eslint .",
+    "typecheck": "npm run build:shared && npm run typecheck -w @apricity/api && npm run typecheck -w @apricity/web",
+    "test": "npm run build:shared && npm test -w @apricity/api",
+    "db:up": "docker compose up -d db",
+    "db:migrate": "npm run db:migrate -w @apricity/api",
+    "db:seed": "npm run db:seed -w @apricity/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0"
+  },
+  "engines": { "node": ">=20" }
+}

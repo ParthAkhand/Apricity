@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LandingType {
+  INTERNAL
+  EXTERNAL
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  tagline     String
+  summary     String
+  audience    Json
+  modules     Json
+  features    Json
+  metrics     Json
+  media       Json
+  content     Json
+  landingType LandingType
+  externalUrl String?
+  order       Int         @default(0)
+  published   Boolean     @default(false)
+  leads       Lead[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+/// Single row, id = "company".
+model CompanySettings {
+  id            String @id @default("company")
+  name          String
+  address       String
+  phone         String
+  email         String
+  parentCompany String
+  founder       Json
+  stats         Json
+  tagline       String
+  brandLine     String
+}
+
+model Lead {
+  id              String     @id @default(cuid())
+  name            String
+  organisation    String     @default("")
+  role            String     @default("")
+  email           String
+  phone           String     @default("")
+  productInterest String     @default("")
+  message         String     @default("")
+  source          String     @default("website")
+  status          LeadStatus @default(NEW)
+  productId       String?
+  product         Product?   @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt       DateTime   @default(now())
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Page {
+  slug      String   @id
+  title     String
+  body      String
+  published Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,85 @@
+-->
+ApricitySupportPolicy | Apricity Digital
+top of page
+About Us
+Services
+Solutions
+Insight
+Careers
+CONTACT
+Support Policy – Apricity Digital Labs
+1. Introduction
+At Apricity, we are committed to providing timely, reliable, and efficient support to all our users. This Support Policy outlines how users can contact us, the types of support we provide, and our support practices.
+2. Support Channels
+Users can contact our support team through the following channels:
+Email Support: it@apricitydigital.in
+In-App Support (where available)
+Website Contact Form
+When submitting a support request, please include relevant details such as your User ID, a description of the issue, screenshots (if applicable), and your contact information.
+3. Support Hours
+Our support team is available during the following hours:
+Monday to Saturday: 9:30 AM – 6:30 PM (IST)
+Sunday and Public Holidays: Limited or no support
+4. Types of Support Provided
+We provide assistance for:
+Account-related issues (login, access, etc.)
+Technical issues and bug reports
+Data-related queries
+Service usage guidance
+Feature-related questions
+5. User Responsibilities
+To ensure faster issue resolution, users are expected to:
+Provide accurate and complete information
+Avoid sharing false or misleading information
+Follow troubleshooting steps suggested by the support team
+Maintain the confidentiality of their login credentials
+6. Data Privacy During Support
+All user data shared during support interactions is handled securely and in accordance with our Privacy Policy. We do not share personal information with unauthorized third parties and only use such information to resolve issues and improve our services.
+7. Limitations of Support
+Support may not be provided in the following circumstances:
+Issues caused by third-party integrations or services not controlled by us
+User negligence, misuse, or unauthorized modifications of the platform
+Requests beyond the scope of our products and services
+8. Escalation Policy
+If your issue is not resolved through standard support channels:
+You may request an escalation via email.
+Escalated issues will be reviewed by senior support personnel.
+Resolution priority will be adjusted based on the nature and severity of the issue.
+9. Use of Facial Data
+We are committed to protecting your privacy when using facial recognition features.
+What We Collect
+We collect facial images and facial encoding data during registration and authentication processes.
+Why We Collect It
+This data is used solely to enable secure image-based login, authentication, and identity verification.
+Storage
+Facial data is securely stored in AWS S3 and associated databases using appropriate encryption and access-control measures.
+Retention
+Facial data is retained only for as long as your account remains active or as required to provide the intended functionality of our services.
+No Sharing
+We do not sell, share, lease, or disclose your facial data to any third party under any circumstances, except where required by applicable law.
+10. Changes to This Support Policy
+We may update this Support Policy from time to time to reflect service improvements, operational changes, or legal and regulatory requirements. Users are encouraged to review this policy periodically for any updates.
+11. Contact Us
+For any support-related queries or assistance, please contact us:
+Email: it@apricitydigital.in
+Be the First to Receive the Latest Services From Apricity.
+COMPANY
+About Us
+Services
+Solutions
+Careers
+LEGAL
+Terms & Conditions
+Privacy Policy
+Support Policy
+CONTACT
+206,Gulab Bagh  Colony
+Indore,452010 MP
++91 9111 8999 09
+info@apricitydigital.in
+© 2024 by Apricity Digital . All Rights Reserved
+About Us
+Services
+Solutions
+Careers
+bottom of page

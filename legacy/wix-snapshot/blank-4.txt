@@ -1,0 +1,76 @@
+-->
+TaskForce T&C | Apricity Digital
+top of page
+About Us
+Services
+Solutions
+Insight
+Careers
+CONTACT
+1. INTRODUCTION
+APRICITY DIGITAL LAB ("we," "our," or "us") operates the TaskForce Waste Management mobile application (the "Service"). This Privacy Policy informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy.
+2. INFORMATION WE COLLECT
+2.1 Personal Information • Account Information: Name, email address, phone number, employee ID • Authentication Data: Login credentials, authentication tokens • Profile Information: Role designation (Admin, TaskForce, User), department, supervisor details • Contact Information: Emergency contacts, work contact details
+2.2 Location Information • GPS Coordinates: Real-time location for route optimization and task assignment • Collection Point Locations: Addresses and coordinates of waste collection points • Zone and Area Data: Geographic boundaries for service areas • Route Information: Travel paths and collection routes 2.3 Operational Data • Task Information: Assigned tasks, completion status, timestamps • Collection Reports: Waste collection data, compliance reports • Performance Metrics: Efficiency ratings, completion times, quality scores • Schedule Data: Work schedules, shift information, availability
+2.4 Technical Information • Device Information: Device type, operating system, app version • Usage Data: App interactions, feature usage, session duration • Log Data: Error logs, crash reports, performance data
+3. HOW WE USE YOUR INFORMATION
+3.1 Service Provision • Provide waste management and task coordination services • Assign and track collection routes and tasks • Generate performance and compliance reports • Facilitate team communication and coordination
+3.2 Operational Purposes • Optimize collection routes and schedules • Monitor service quality and compliance • Manage user accounts and access permissions • Provide customer support and technical assistance
+3.3 Analytics and Improvement • Analyze app usage patterns and performance • Improve service efficiency and user experience • Develop new features and functionality • Conduct quality assurance and testing
+3.4 Legal and Compliance • Comply with applicable laws and regulations • Respond to legal requests and court orders • Protect against fraud and security threats • Enforce our terms of service
+4. INFORMATION SHARING AND DISCLOSURE
+4.1 Within Your Organization • Share data with authorized personnel within your organization • Provide supervisors access to team performance data • Enable collaboration between different user roles
+4.2 Service Providers We may share information with third-party service providers who assist us in: • Cloud hosting and data storage (Firebase/Google Cloud) • App performance monitoring
+4.3 Legal Requirements • Comply with legal processes or government requests • Protect our rights, property, or safety • Investigate potential violations of our terms • Respond to emergencies involving public safety
+4.4 Business Transfers In the event of a merger, acquisition, or sale of assets, user information may be transferred as part of the transaction.
+5. DATA SECURITY
+5.1 Security Measures • Encryption: Data encryption in transit and at rest • Access Controls: Role-based access and authentication • Firebase Security: Secure authentication and encrypted data transmission
+6. DATA RETENTION
+6.1 Retention Periods • Active User Data: Retained while account is active • Operational Data: Retained as required for business operations • Location Data: Retained for operational purposes only • Log Data: Retained for 30 days for troubleshooting purposes
+6.2 Data Deletion • Users may request deletion of their personal data • Data will be deleted within reasonable time of verified requests • Some data may be retained for legal or operational requirements
+7. YOUR RIGHTS AND CHOICES
+7.1 Access and Control • Access your personal information • Correct inaccurate or incomplete data • Request deletion of your data • Export your data in a portable format
+7.2 Location Services • You can disable location services in your device settings • Note that this may limit app functionality • Location data is essential for route optimization
+7.3 Notifications • You can manage notification preferences in the app • Disable push notifications through device settings • Some operational notifications may still be required
+8. CHILDREN'S PRIVACY Our Service is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you become aware that a child has provided us with personal information, please contact us, and we will take steps to remove such information.
+9. INTERNATIONAL DATA TRANSFERS Your information may be transferred to and processed in countries other than your own through our use of Firebase/Google Cloud services. We rely on Google's data protection measures for international transfers.
+10. THIRD-PARTY SERVICES
+10.1 Firebase/Google Cloud Our app uses Firebase services provided by Google. Please review Google's Privacy Policy at: https://policies.google.com/privacy 10.2 Analytics Services We may use Firebase Analytics to understand app usage and improve our services. This service processes data according to Google's privacy policy.
+11. UPDATES TO THIS POLICY We may update this Privacy Policy from time to time. We will notify you of any changes by: • Posting the new Privacy Policy in the app • Sending an email notification • Displaying a prominent notice in the app Your continued use of the Service after changes become effective constitutes acceptance of the updated policy.
+12. CONTACT INFORMATION If you have any questions about this Privacy Policy or our data practices, please contact us:
+Apricity Digital Labs
+Email: info@apricitydigital.in
+Grievance Officer Name:
+Aditi Agarwal
+Email: aditi@humanmatrix.co.in
+We shall ensure that your complaint is resolved within timelines prescribed by applicable laws.
+13. JURISDICTION AND GOVERNING LAW This Privacy Policy is governed by the laws of India. Any disputes arising from this policy will be resolved in the courts of Indore, MP, India.
+14. COMPLIANCE We strive to comply with applicable privacy laws and regulations. This includes but is not limited to local data protection laws in your jurisdiction.
+15. MISCELLANEOUS PROVISIONS
+a.) Changes to Terms The Terms are subject to revisions at any time, as determined by us, and all changes are effective immediately upon being posted on the Platform. It is your responsibility to review these Terms periodically for any updates or changes. You will be deemed to have accepted the changes made to these Terms if you continue to use the Platform once it has been posted.
+b.) Modification to the Services We reserve the right at any time to add, modify, or discontinue, temporarily or permanently, the Services (or any part thereof), with or without cause. We shall not be liable for any Insstanto addition, modification, suspension, or discontinuation of the Services.
+c.) Severability If any provision of these Terms is determined by any court or other competent authority to be unlawful or unenforceable, the other provisions of these Terms will continue to be in effect. If any unlawful or unenforceable provision would be lawful or enforceable if a part of it were deleted, that part will be deemed to be deleted, and the rest of the provision will continue in effect (unless that would contradict the clear intention of the clause, in which case the entirety of the relevant provision will be deemed to be deleted).
+d.) Assignment You shall not license, sell, transfer, or assign your rights, obligations, or covenants under these Terms, or your Account in any manner without our prior written consent. We may grant or withhold this consent at our sole discretion, subject to any conditions we deem appropriate. We may assign our rights to any of our affiliates, subsidiaries, or parent companies, any Accessor in interest of any business associated with the Services, or any third party without any prior notice to you.
+LEGAL NOTICE
+This privacy policy should be reviewed by legal counsel to ensure compliance with specific jurisdictional requirements before deployment.
+Be the First to Receive the Latest Services From Apricity.
+COMPANY
+About Us
+Services
+Solutions
+Careers
+LEGAL
+Terms & Conditions
+Privacy Policy
+Support Policy
+CONTACT
+206,Gulab Bagh  Colony
+Indore,452010 MP
++91 9111 8999 09
+info@apricitydigital.in
+© 2024 by Apricity Digital . All Rights Reserved
+About Us
+Services
+Solutions
+Careers
+bottom of page

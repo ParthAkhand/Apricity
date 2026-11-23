@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { getProduct, getProducts } from "@/lib/api";
 import { DemoButton } from "@/components/DemoButton";
 import { LeadForm } from "@/components/LeadForm";
+import { LiveCommand } from "@/components/LiveCommand";
+import { AuditFlow } from "@/components/AuditFlow";
+import { ModuleExplorer } from "@/components/ModuleExplorer";
+import { Reveal } from "@/components/Reveal";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,8 +39,9 @@ export default async function ProductPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <section className="on-dark bg-ink text-paper">
-        <div className="container-x py-16 md:py-24">
+      <section className="on-dark grid-bg bg-ink text-paper">
+        <div className="container-x grid items-center gap-10 py-16 md:py-24 lg:grid-cols-2">
+          <div>
           <p className="eyebrow">{p.name}</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">{c.headline || p.tagline}</h1>
           <p className="mt-5 max-w-2xl text-paper/75">{p.summary}</p>
@@ -48,13 +53,15 @@ export default async function ProductPage({ params }: Props) {
               ))}
             </dl>
           )}
+          </div>
+          {p.slug === "matrix-track-2" && <LiveCommand />}
         </div>
       </section>
 
       {(c.problem || c.outcome) && (
         <section className="container-x grid gap-8 py-16 md:grid-cols-2">
-          <div><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div>
-          <div><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div>
+          <Reveal><div className="h-full rounded-3xl border border-ink/10 bg-white p-6"><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div></Reveal>
+          <Reveal delay={120}><div className="h-full rounded-3xl bg-accent/15 p-6"><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div></Reveal>
         </section>
       )}
 
@@ -62,11 +69,7 @@ export default async function ProductPage({ params }: Props) {
         <section className="bg-paper-200 py-16">
           <div className="container-x">
             <h2 className="eyebrow">Key modules</h2>
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {p.modules.map((m) => (
-                <li key={m.title} className="rounded-2xl bg-white p-5"><h3 className="font-display text-lg font-bold">{m.title}</h3><p className="mt-1 text-sm text-ink/70">{m.description}</p></li>
-              ))}
-            </ul>
+            <div className="mt-6"><ModuleExplorer modules={p.modules} /></div>
             {p.features.length > 0 && (
               <ul className="mt-8 flex flex-wrap gap-2">
                 {p.features.map((f) => <li key={f} className="rounded-full border border-ink/20 px-3 py-1 text-sm">{f}</li>)}
@@ -76,12 +79,19 @@ export default async function ProductPage({ params }: Props) {
         </section>
       )}
 
+      {p.slug === "matrix-track-2" && (
+        <section className="container-x py-16">
+          <h2 className="eyebrow">Sanitation audit flow</h2>
+          <div className="mt-6"><AuditFlow /></div>
+        </section>
+      )}
+
       {c.steps.length > 0 && (
         <section className="container-x py-16">
           <h2 className="eyebrow">How it works</h2>
           <ol className="mt-6 grid gap-5 md:grid-cols-4">
             {c.steps.map((s, i) => (
-              <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
+              <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5 transition hover:-translate-y-1 hover:shadow-lg"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
             ))}
           </ol>
         </section>

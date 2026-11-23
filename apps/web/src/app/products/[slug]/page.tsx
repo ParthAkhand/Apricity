@@ -3,6 +3,11 @@ import { notFound } from "next/navigation";
 import { getProduct, getProducts } from "@/lib/api";
 import { DemoButton } from "@/components/DemoButton";
 import { LeadForm } from "@/components/LeadForm";
+import { LiveCommand } from "@/components/LiveCommand";
+import { AuditFlow } from "@/components/AuditFlow";
+import { ModuleExplorer } from "@/components/ModuleExplorer";
+import { Reveal } from "@/components/Reveal";
+import { FaceScanHero } from "@/components/FaceScanHero";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,7 +20,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProduct((await params).slug);
-  return p && p.landingType === "INTERNAL" ? { title: p.name, description: p.summary } : {};
+  if (!p || p.landingType !== "INTERNAL") return {};
+  const url = `/products/${p.slug}`;
+  return { title: p.name, description: p.summary, alternates: { canonical: url }, openGraph: { title: p.name, description: p.summary, url, type: "website" } };
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -31,12 +38,21 @@ export default async function ProductPage({ params }: Props) {
     name: p.name,
     description: p.summary,
     applicationCategory: "BusinessApplication",
+    publisher: { "@type": "Organization", name: "Apricity Digital" },
+  };
+  // FAQPage markup makes the FAQ eligible for rich results.
+  const faqLd = c.faq.length > 0 && {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: c.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
   };
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <section className="on-dark bg-ink text-paper">
-        <div className="container-x py-16 md:py-24">
+      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
+      <section className="on-dark grid-bg bg-ink text-paper">
+        <div className="container-x grid items-center gap-10 py-16 md:py-24 lg:grid-cols-2">
+          <div>
           <p className="eyebrow">{p.name}</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">{c.headline || p.tagline}</h1>
           <p className="mt-5 max-w-2xl text-paper/75">{p.summary}</p>
@@ -48,13 +64,16 @@ export default async function ProductPage({ params }: Props) {
               ))}
             </dl>
           )}
+          </div>
+          {p.slug === "matrix-track-2" && <LiveCommand />}
+          {p.slug === "matrix-track" && <FaceScanHero />}
         </div>
       </section>
 
       {(c.problem || c.outcome) && (
         <section className="container-x grid gap-8 py-16 md:grid-cols-2">
-          <div><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div>
-          <div><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div>
+          <Reveal><div className="h-full rounded-3xl border border-ink/10 bg-white p-6"><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div></Reveal>
+          <Reveal delay={120}><div className="h-full rounded-3xl bg-accent/15 p-6"><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div></Reveal>
         </section>
       )}
 
@@ -62,11 +81,7 @@ export default async function ProductPage({ params }: Props) {
         <section className="bg-paper-200 py-16">
           <div className="container-x">
             <h2 className="eyebrow">Key modules</h2>
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {p.modules.map((m) => (
-                <li key={m.title} className="rounded-2xl bg-white p-5"><h3 className="font-display text-lg font-bold">{m.title}</h3><p className="mt-1 text-sm text-ink/70">{m.description}</p></li>
-              ))}
-            </ul>
+            <div className="mt-6"><ModuleExplorer modules={p.modules} /></div>
             {p.features.length > 0 && (
               <ul className="mt-8 flex flex-wrap gap-2">
                 {p.features.map((f) => <li key={f} className="rounded-full border border-ink/20 px-3 py-1 text-sm">{f}</li>)}
@@ -76,12 +91,19 @@ export default async function ProductPage({ params }: Props) {
         </section>
       )}
 
+      {p.slug === "matrix-track-2" && (
+        <section className="container-x py-16">
+          <h2 className="eyebrow">Sanitation audit flow</h2>
+          <div className="mt-6"><AuditFlow /></div>
+        </section>
+      )}
+
       {c.steps.length > 0 && (
         <section className="container-x py-16">
           <h2 className="eyebrow">How it works</h2>
           <ol className="mt-6 grid gap-5 md:grid-cols-4">
             {c.steps.map((s, i) => (
-              <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
+              <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5 transition hover:-translate-y-1 hover:shadow-lg"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
             ))}
           </ol>
         </section>
@@ -90,7 +112,7 @@ export default async function ProductPage({ params }: Props) {
       {p.audience.length > 0 && (
         <section className="bg-paper-200 py-14">
           <div className="container-x"><h2 className="eyebrow">Who it is for</h2>
-            <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium">{a}</li>)}</ul>
+            <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium transition hover:-translate-y-1 hover:shadow-lg">{a}</li>)}</ul>
           </div>
         </section>
       )}
@@ -100,7 +122,7 @@ export default async function ProductPage({ params }: Props) {
           <h2 className="eyebrow">FAQ</h2>
           <div className="mt-6 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white">
             {c.faq.map((f) => (
-              <details key={f.q} className="group p-5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
+              <details key={f.q} className="group p-5 open:bg-accent/5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
             ))}
           </div>
         </section>

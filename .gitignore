@@ -10,3 +10,5 @@ graphify-out/20*/
 graphify-out/
 CLAUDE.md
 docs/*.tsbuildinfo
+apps/web/tsconfig.tsbuildinfo
+.graphifyignore

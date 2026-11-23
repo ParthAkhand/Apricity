@@ -43,15 +43,3 @@ npm run dev                 # web :3000, API :4000
 ## Environment (see `.env.example`)
 
 `DATABASE_URL`, `API_PORT`, `WEB_ORIGIN` (CORS), `NEXT_PUBLIC_API_URL` (browser to API), `API_URL` (server to API), `SESSION_SECRET` (32+ chars in production), `ADMIN_EMAIL`/`ADMIN_PASSWORD` (seed), `SMTP_*` and `LEAD_NOTIFY_TO` (empty `SMTP_HOST` logs lead emails to the console), `TURNSTILE_SECRET` (optional spam check). Secrets never go in the repo.
-
-## Architecture
-
-- **Web** fetches products, settings and legal pages from `/api/v1` with ISR (60 s) and shows seeded fallback data if the API is down. Admin saves also mark the cache stale.
-- **API** validates every input with the shared zod schemas, rate-limits, uses helmet and locked CORS, and protects admin routes with a signed httpOnly session cookie plus a CSRF header. Passwords are hashed with argon2.
-- **Product rule:** `landingType: EXTERNAL` products (Insstanto) never get an internal page; their card opens `externalUrl` in a new tab. `INTERNAL` products render at `/products/[slug]`.
-- **Legacy:** the frozen copy of the old Wix site is in `legacy/wix-snapshot/` (tag `legacy-reference`). Old URLs redirect (see `apps/web/next.config.mjs`).
-- **Docs:** `docs/01-site-review.md`, `docs/02-plan.md`, `docs/03-final-summary.md`. Context graph: `graphify-out/`.
-
-## Production notes
-
-Serve web and API on the same site (e.g. `www.` and `api.` subdomains) so the session cookie works, set `secure` via `NODE_ENV=production`, and set real `SESSION_SECRET`, SMTP and admin credentials.

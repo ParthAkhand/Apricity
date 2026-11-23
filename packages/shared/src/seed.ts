@@ -127,7 +127,7 @@ export const seedProducts: ProductInput[] = [
     slug: "insstanto",
     name: "Insstanto",
     tagline: "On-demand home cleaning, maid, driver, electrical and security services",
-    summary: "An on-demand services marketplace for homes and businesses. // CONFIRM wording against insstanto.com",
+    summary: "An on-demand services marketplace for homes and businesses.", // CONFIRM wording against insstanto.com (client-rendered, only its title was readable)
     audience: [],
     modules: [],
     features: [],

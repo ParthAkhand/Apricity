@@ -76,8 +76,9 @@ export async function buildApp(prisma: PrismaClient, mailer: Mailer = createMail
   await app.register(swaggerUi, { routePrefix: "/docs" });
 
   app.setErrorHandler((err: unknown, _req, reply) => {
-    if (err instanceof ZodError) {
-      return reply.code(400).send({ error: "Validation failed", issues: err.issues });
+    // Match by name too: shared and api can load different zod module instances (ESM vs CJS).
+    if (err instanceof ZodError || (err as Error)?.name === "ZodError") {
+      return reply.code(400).send({ error: "Validation failed", issues: (err as ZodError).issues });
     }
     const e = err as { statusCode?: number; code?: string; message?: string };
     if (e.code === "P2002") return reply.code(409).send({ error: "Already exists" });

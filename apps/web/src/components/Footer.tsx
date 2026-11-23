@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Settings } from "@apricity/shared";
 
 export function Footer({ settings: s }: { settings: Settings }) {
-  const link = "text-paper/80 hover:text-accent";
+  const link = "inline-block py-1.5 text-paper/80 hover:text-accent";
   return (
     <footer className="on-dark bg-ink text-paper">
       <div className="container-x grid gap-10 py-14 md:grid-cols-4">

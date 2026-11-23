@@ -20,11 +20,9 @@ async function main() {
   const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
   if (ADMIN_EMAIL && ADMIN_PASSWORD) {
     const email = ADMIN_EMAIL.toLowerCase();
-    await prisma.adminUser.upsert({
-      where: { email },
-      update: {},
-      create: { email, passwordHash: await argon2.hash(ADMIN_PASSWORD) },
-    });
+    // The env value is the source of truth: re-seeding resets the admin password to it.
+    const passwordHash = await argon2.hash(ADMIN_PASSWORD);
+    await prisma.adminUser.upsert({ where: { email }, update: { passwordHash }, create: { email, passwordHash } });
     console.log(`Admin ready: ${email}`);
   } else {
     console.log("ADMIN_EMAIL/ADMIN_PASSWORD not set: no admin created");

@@ -6,6 +6,13 @@ import { LeadForm } from "@/components/LeadForm";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const revalidate = 60;
+
+// Pre-render known internal products; products added later render on first visit (dynamicParams).
+export async function generateStaticParams() {
+  return (await getProducts()).filter((p) => p.landingType === "INTERNAL").map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProduct((await params).slug);
   return p && p.landingType === "INTERNAL" ? { title: p.name, description: p.summary } : {};
@@ -46,15 +53,15 @@ export default async function ProductPage({ params }: Props) {
 
       {(c.problem || c.outcome) && (
         <section className="container-x grid gap-8 py-16 md:grid-cols-2">
-          <div><p className="eyebrow">The problem</p><p className="mt-2 text-lg">{c.problem}</p></div>
-          <div><p className="eyebrow">The outcome</p><p className="mt-2 text-lg">{c.outcome}</p></div>
+          <div><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div>
+          <div><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div>
         </section>
       )}
 
       {p.modules.length > 0 && (
         <section className="bg-paper-200 py-16">
           <div className="container-x">
-            <p className="eyebrow">Key modules</p>
+            <h2 className="eyebrow">Key modules</h2>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {p.modules.map((m) => (
                 <li key={m.title} className="rounded-2xl bg-white p-5"><h3 className="font-display text-lg font-bold">{m.title}</h3><p className="mt-1 text-sm text-ink/70">{m.description}</p></li>
@@ -71,7 +78,7 @@ export default async function ProductPage({ params }: Props) {
 
       {c.steps.length > 0 && (
         <section className="container-x py-16">
-          <p className="eyebrow">How it works</p>
+          <h2 className="eyebrow">How it works</h2>
           <ol className="mt-6 grid gap-5 md:grid-cols-4">
             {c.steps.map((s, i) => (
               <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
@@ -82,7 +89,7 @@ export default async function ProductPage({ params }: Props) {
 
       {p.audience.length > 0 && (
         <section className="bg-paper-200 py-14">
-          <div className="container-x"><p className="eyebrow">Who it is for</p>
+          <div className="container-x"><h2 className="eyebrow">Who it is for</h2>
             <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium">{a}</li>)}</ul>
           </div>
         </section>
@@ -90,7 +97,7 @@ export default async function ProductPage({ params }: Props) {
 
       {c.faq.length > 0 && (
         <section className="container-x py-16">
-          <p className="eyebrow">FAQ</p>
+          <h2 className="eyebrow">FAQ</h2>
           <div className="mt-6 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white">
             {c.faq.map((f) => (
               <details key={f.q} className="group p-5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>

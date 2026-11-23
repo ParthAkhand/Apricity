@@ -11,7 +11,7 @@ export default async function Products() {
       <p className="eyebrow">Products</p>
       <h1 className="mt-2 font-display text-4xl font-bold">Our products</h1>
       <ul className="mt-8 grid gap-6 md:grid-cols-3">
-        {products.map((p) => <li key={p.id}><ProductCard product={p} /></li>)}
+        {products.map((p) => <li key={p.id}><ProductCard product={p} level={2} /></li>)}
       </ul>
     </div>
   );

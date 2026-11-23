@@ -46,13 +46,14 @@ One monorepo, two independently buildable apps plus a shared types package, so f
 - `eslint`, `tsc` (both apps): clean. `next build`: succeeds. API tests: 9/9 pass (products, leads, honeypot, validation, admin refusal, CSRF, publish/unpublish, CSV formula escaping).
 - End-to-end on the running stack: lead submitted and visible in admin; product added in admin appears on `/products`; switched to EXTERNAL → card links out in a new tab and `/products/<slug>` returns 404; deleted → disappears; Insstanto internal URL returns 404; `/blank-1` redirects to Matrix Track 2.0; unauthenticated admin API returns 401.
 - `docker compose up --build` starts db, API and web with seeded data.
-- Lighthouse (local, mobile profile, production build in Docker): Accessibility 100, Best Practices 100, SEO 100 on `/`, `/products/matrix-track-2`, `/contact`. **Performance: home 90, product page 92 (contact scored 91 before the last tweak and was not re-run), so below the 95 target.** Remaining cost is main-thread JavaScript and font/CSS loading.
+- Lighthouse (local, mobile profile, production build in Docker, median of 3 runs): Accessibility 100, Best Practices 100, SEO 100 on all 8 pages tested. Performance: `/products` 94, `/about` 94, `/careers` 94, `/privacy-policy` 92, `/products/matrix-track` 89, `/contact` 89, `/` 88, `/products/matrix-track-2` 88. **Below the 95 target.** Run-to-run spread is 5 to 10 points on this machine. The remaining cost is the Next.js and React runtime (about 100 KB JavaScript), which every page ships, plus simulated-throttling LCP of about 2.5 to 2.8 s even on plain text pages.
 - Leftover grep: no TaskForce, Lorem or TODO in app code; no city or corporation named as a client.
 
 ## Not done / not verified
 
-- Performance below 95 (above). Next steps: split the header into server and client parts, preload fonts, measure on the real host.
-- Not checked: 360/768/1280/1920 px layouts and keyboard flow by hand (Lighthouse accessibility passes, but I did not view the pages in a browser); `npm audit`; rate limits under load; real SMTP.
+- Performance below 95 (above). Tried: removing Framer Motion, lazy-mounting the demo form, inlining CSS, `content-visibility` on below-fold sections, a 2 KB favicon instead of the 88 KB logo (these cut blocking time roughly in half on the product page). Font `display: optional` did not help and was reverted. Next steps: measure on the real host/CDN; split the header into server and client parts.
+- Checked in headless Chrome: no horizontal overflow on the 10 public pages at 360, 768, 1280 and 1920 px, and none on the admin pages at 360 px (an admin table overflow and a cramped 768 px header were found and fixed); keyboard Tab order, focus outline, demo modal (opens, focus inside, Escape closes), contact form submit through the UI, honeypot not reachable, admin redirects to login when signed out. Screenshots were viewed for home, product and contact pages only, not every page.
+- Not checked: `npm audit`; rate limits under load; real SMTP; a human review of every page's copy and visuals.
 - No OG image yet (text metadata only).
 - Admin edits nested product content as JSON (modules, features, metrics, content). Fine for the demo, not for non-technical editors.
 - Framer Motion was dropped (hero now CSS-only) to save JavaScript; the plan listed it.

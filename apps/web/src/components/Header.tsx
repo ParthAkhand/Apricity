@@ -20,20 +20,20 @@ export function Header({ products }: { products: { slug: string; name: string }[
       <div className="container-x flex h-16 items-center justify-between">
         <Link href="/" aria-label="Apricity Digital home" className="flex items-center gap-2">
           <Image src="/apricity-logo.png" alt="" width={36} height={30} priority />
-          <span className="font-display text-lg font-bold tracking-tight">Apricity Digital</span>
+          <span className="whitespace-nowrap font-display text-lg font-bold tracking-tight">Apricity Digital</span>
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
           {nav.map((n) => (
             <Link key={n.href} href={n.href} className="text-sm text-paper/80 hover:text-accent">{n.label}</Link>
           ))}
-          <DemoButton products={products} className="btn btn-primary !py-2" />
+          <DemoButton products={products} className="btn btn-primary whitespace-nowrap !py-2" />
         </nav>
-        <button type="button" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label="Menu" onClick={() => setOpen(!open)}>
+        <button type="button" className="lg:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label="Menu" onClick={() => setOpen(!open)}>
           {open ? <X aria-hidden /> : <Menu aria-hidden />}
         </button>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="container-x grid gap-1 pb-4 md:hidden">
+        <nav id="mobile-nav" aria-label="Mobile" className="container-x grid gap-1 pb-4 lg:hidden">
           {nav.map((n) => (
             <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="rounded py-2 text-paper/90">{n.label}</Link>
           ))}

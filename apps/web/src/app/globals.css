@@ -28,3 +28,6 @@
 @keyframes hero-bar { from { width: 0; } to { width: var(--w); } }
 .hero-pulse { animation: hero-pulse 2.4s ease-in-out infinite; }
 .hero-bar { width: var(--w); animation: hero-bar 1.2s ease-out backwards; }
+
+/* Skip layout/paint work for below-the-fold sections until they are near the viewport. */
+main > section:not(:first-of-type) { content-visibility: auto; contain-intrinsic-size: auto 700px; }

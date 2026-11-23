@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   description:
     "Apricity Digital builds AI-driven software for cities and enterprises, including Matrix Track 2.0 and Matrix Track.",
   openGraph: { siteName: "Apricity Digital", type: "website" },
-  icons: { icon: "/apricity-logo.png" },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

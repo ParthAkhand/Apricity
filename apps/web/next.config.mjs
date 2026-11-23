@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@apricity/shared"],
+  // Inline the (small) stylesheet so it does not block first paint.
+  experimental: { inlineCss: true },
   // Old Wix URLs -> new routes (see docs/02-plan.md). "/about" keeps its path with new meaning.
   async redirects() {
     return [

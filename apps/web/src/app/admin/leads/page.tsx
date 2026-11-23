@@ -30,7 +30,7 @@ export default function AdminLeads() {
         <button className="btn btn-dark" onClick={exportCsv}>Export CSV</button>
       </div>
       <p role="status" className="mt-2 min-h-5 text-sm text-red-700">{msg}</p>
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-ink/10 bg-white">
+      <div className="relative mt-4 overflow-x-auto rounded-2xl border border-ink/10 bg-white">
         <table className="w-full text-left text-sm">
           <thead className="bg-paper-200 text-xs uppercase tracking-wide"><tr><th className="p-3">Date</th><th className="p-3">Name</th><th className="p-3">Contact</th><th className="p-3">Interest</th><th className="p-3">Message</th><th className="p-3">Status</th></tr></thead>
           <tbody className="divide-y divide-ink/10">

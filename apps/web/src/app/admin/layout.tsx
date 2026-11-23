@@ -7,7 +7,7 @@ import { adm, setCsrf } from "@/lib/adminApi";
 const tabs = [
   { href: "/admin", label: "Products" },
   { href: "/admin/settings", label: "Settings" },
-  { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/leads", label: "Enquiries" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

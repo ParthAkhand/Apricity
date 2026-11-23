@@ -1,22 +1,15 @@
 # Apricity Digital: full-stack site
 
 Monorepo (npm workspaces): `apps/web` (Next.js), `apps/api` (Fastify + Prisma + PostgreSQL), `packages/shared` (zod schemas, types, seed data).
-Products are data: add, edit, reorder or unpublish them in the admin panel, with no code change or redeploy.
+Products are data: edit, reorder or unpublish them in the admin panel, with no code change or redeploy.
 
 ## Quick start
 
-Option A: everything in Docker (web, API, Postgres, seeded):
-
-```
-docker compose up --build
-```
-
-Option B: local dev (Node 20+; Postgres from compose):
+Local dev (Node 20+ and a local PostgreSQL):
 
 ```
 cp .env.example .env        # then set ADMIN_EMAIL / ADMIN_PASSWORD (dev only) and SESSION_SECRET
 npm install
-npm run db:up               # Postgres in Docker
 npm run db:migrate          # create tables
 npm run db:seed             # settings, 3 products, legal pages, admin from .env
 npm run dev                 # web :3000, API :4000
@@ -28,7 +21,7 @@ npm run dev                 # web :3000, API :4000
 | http://localhost:3000/admin | Admin panel |
 | http://localhost:4000/docs | API docs (OpenAPI) |
 
-**Demo admin (dev only):** `admin@apricity.local` / `Apricity-Dev-2026` (set in `docker-compose.yml` and your local `.env`). Never use these in production.
+**Demo admin (dev only):** `admin@apricity.local` / `Apricity-Dev-2026` (set in your local `.env`). Never use these in production.
 
 ## Scripts
 

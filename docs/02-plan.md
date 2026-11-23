@@ -10,7 +10,7 @@ Defaults taken where you did not answer: VPE Aditi Agarwal **not** shown; public
 apps/web         Next.js (App Router) + TypeScript + Tailwind + Framer Motion
 apps/api         Node + TypeScript + Fastify + Prisma
 packages/shared  zod schemas + TS types (Product, Lead, Settings…)
-docs/  legacy/  docker-compose.yml  .env.example
+docs/  legacy/  .env.example
 ```
 
 Why one repo: one team and one prototype; shared zod types stop frontend/backend drift; atomic commits across both apps; one CI. Each app builds and deploys on its own, so splitting later means moving a folder and publishing `packages/shared`. No concrete reason found to recommend two repos.
@@ -21,7 +21,7 @@ Why one repo: one team and one prototype; shared zod types stop frontend/backend
 
 ## 2. Backend
 
-**Stack:** PostgreSQL + Prisma, Postgres-compatible schema, SQLite not used (docker-compose gives Postgres in one command). Seeds: company settings, 3 products, 1 admin from env.
+**Stack:** PostgreSQL + Prisma, Postgres-compatible schema, SQLite not used. Seeds: company settings, 3 products, 1 admin from env.
 
 ### ER diagram
 ```mermaid
@@ -133,14 +133,14 @@ Per-page metadata, OG/Twitter tags with a generated OG image (logo on brand pane
 **Performance budget:** home JS ≤ 170 KB gzip, LCP ≤ 2.5 s on mobile profile, CLS < 0.1; hero animation CSS/SVG, below-fold sections lazy; fonts self-hosted with `display: swap`. Target Lighthouse 95+ ×4.
 
 ## 5. Dev and deployment
-`docker compose up` = Postgres + api + web; `npm run dev` = web + api with a local Postgres from compose. Seed prints a **dev-only** demo admin (credentials from env/README, never hard-coded in code).
+`npm run dev` = web + api against a local Postgres. Seed prints a **dev-only** demo admin (credentials from env/README, never hard-coded in code).
 
 Deployment proposal: web on Vercel (or any Node host); API + Postgres on Render/Railway/a VPS. Cutover from Wix: deploy to a staging subdomain, review, add the 301 map above, then switch DNS at the registrar; keep MX/email records untouched so mail is unaffected. **Not done in this project; nothing touches the live domain or DNS.**
 
 ## 6. Tasks and estimates (prototype, one developer + AI)
 | # | Phase | Est. |
 |---|---|---|
-| 1 | Scaffold monorepo, tooling, shared package, compose, `.env.example` | 0.5 d |
+| 1 | Scaffold monorepo, tooling, shared package, `.env.example` | 0.5 d |
 | 2 | API: schema, seeds, public endpoints, leads + email adapter | 1.5 d |
 | 3 | API: auth, admin endpoints, CSV, OpenAPI, tests | 1.5 d |
 | 4 | Web: tokens, layout, header/footer, shared components | 1 d |

@@ -6,17 +6,12 @@ import { adm, refreshSite } from "@/lib/adminApi";
 
 // shortcut: nested content (modules, features, metrics, content) is edited as JSON, not per-field widgets; upgrade when non-developers edit it.
 const DETAIL_KEYS = ["audience", "modules", "features", "metrics", "media", "content"] as const;
-const blank = {
-  slug: "", name: "", tagline: "", summary: "", landingType: "INTERNAL" as Product["landingType"], externalUrl: "", published: false,
-  details: JSON.stringify({ audience: [], modules: [], features: [], metrics: [], media: {}, content: {} }, null, 2),
-};
-type Form = typeof blank & { id?: string; order?: number };
-
-const toForm = (p: Product): Form => ({
+const toForm = (p: Product) => ({
   id: p.id, order: p.order, slug: p.slug, name: p.name, tagline: p.tagline, summary: p.summary,
   landingType: p.landingType, externalUrl: p.externalUrl ?? "", published: p.published,
   details: JSON.stringify(Object.fromEntries(DETAIL_KEYS.map((k) => [k, p[k]])), null, 2),
 });
+type Form = ReturnType<typeof toForm>;
 
 export default function AdminProducts() {
   const [items, setItems] = useState<Product[]>([]);
@@ -31,8 +26,8 @@ export default function AdminProducts() {
     if (!form) return;
     try {
       const { id, details, externalUrl, ...rest } = form;
-      const body = { ...rest, ...JSON.parse(details), externalUrl: externalUrl || null, order: form.order ?? items.length + 1 };
-      await adm(id ? `/admin/products/${id}` : "/admin/products", { method: id ? "PUT" : "POST", json: body });
+      const body = { ...rest, ...JSON.parse(details), externalUrl: externalUrl || null };
+      await adm(`/admin/products/${id}`, { method: "PUT", json: body });
       setForm(null); setMsg("Saved."); toast("Product saved"); await load(); refreshSite();
     } catch (err) { setMsg(err instanceof Error ? err.message : "Save failed"); }
   }
@@ -51,10 +46,7 @@ export default function AdminProducts() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl font-bold">Products</h1>
-        <button className="btn btn-dark" onClick={() => { setForm(blank); setMsg(""); }}>New product</button>
-      </div>
+      <h1 className="font-display text-3xl font-bold">Products</h1>
       <p role="status" className="mt-2 min-h-5 text-sm text-ink/70">{msg}</p>
 
       <ul className="mt-4 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white">
@@ -75,7 +67,7 @@ export default function AdminProducts() {
 
       {form && (
         <form onSubmit={save} className="mt-8 grid gap-4 rounded-2xl border border-ink/10 bg-white p-6 sm:grid-cols-2">
-          <h2 className="font-display text-xl font-bold sm:col-span-2">{form.id ? `Edit ${form.name}` : "New product"}</h2>
+          <h2 className="font-display text-xl font-bold sm:col-span-2">Edit {form.name}</h2>
           <div><label className="mb-1 block text-sm font-medium" htmlFor="p-slug">Slug</label><input id="p-slug" className={field} required value={form.slug} onChange={(e) => set("slug", e.target.value)} /></div>
           <div><label className="mb-1 block text-sm font-medium" htmlFor="p-name">Name</label><input id="p-name" className={field} required value={form.name} onChange={(e) => set("name", e.target.value)} /></div>
           <div className="sm:col-span-2"><label className="mb-1 block text-sm font-medium" htmlFor="p-tag">Tagline</label><input id="p-tag" className={field} value={form.tagline} onChange={(e) => set("tagline", e.target.value)} /></div>

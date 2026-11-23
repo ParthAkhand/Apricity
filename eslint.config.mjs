@@ -5,4 +5,5 @@ export default tseslint.config(
   { ignores: ["**/dist/**", "**/.next/**", "**/node_modules/**", "legacy/**", "graphify-out/**", "**/next-env.d.ts"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  { languageOptions: { globals: { process: "readonly" } } },
 );

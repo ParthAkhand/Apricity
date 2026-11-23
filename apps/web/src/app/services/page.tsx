@@ -24,9 +24,7 @@ const benefits = [
 ];
 
 const solutions = [
-  { title: "Fleet tracking", description: "Real-time tracking and route optimisation for collection fleets." },
   { title: "Deployment plan monitoring", description: "Real-time insight into worker deployment across sanitation beats, for accountability and clarity." },
-  { title: "Swachhata Setu", description: "A sanitation management suite that goes beyond attendance: IEC reporting and employee reporting in one platform." },
   { title: "MRF digital monitoring", description: "Operations of a material recovery facility in a single digital view for data-driven decisions." },
 ];
 

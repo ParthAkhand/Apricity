@@ -20,7 +20,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProduct((await params).slug);
-  return p && p.landingType === "INTERNAL" ? { title: p.name, description: p.summary } : {};
+  if (!p || p.landingType !== "INTERNAL") return {};
+  const url = `/products/${p.slug}`;
+  return { title: p.name, description: p.summary, alternates: { canonical: url }, openGraph: { title: p.name, description: p.summary, url, type: "website" } };
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -36,10 +38,18 @@ export default async function ProductPage({ params }: Props) {
     name: p.name,
     description: p.summary,
     applicationCategory: "BusinessApplication",
+    publisher: { "@type": "Organization", name: "Apricity Digital" },
+  };
+  // FAQPage markup makes the FAQ eligible for rich results.
+  const faqLd = c.faq.length > 0 && {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: c.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
   };
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
       <section className="on-dark grid-bg bg-ink text-paper">
         <div className="container-x grid items-center gap-10 py-16 md:py-24 lg:grid-cols-2">
           <div>

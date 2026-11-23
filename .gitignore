@@ -14,3 +14,4 @@ apps/web/tsconfig.tsbuildinfo
 .graphifyignore
 
 apps/api/uploads/
+.next-check/

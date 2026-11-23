@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "@/components/Toaster";
 import { useCallback, useEffect, useState } from "react";
 import type { Product } from "@apricity/shared";
 import { adm, refreshSite } from "@/lib/adminApi";
@@ -32,7 +33,7 @@ export default function AdminProducts() {
       const { id, details, externalUrl, ...rest } = form;
       const body = { ...rest, ...JSON.parse(details), externalUrl: externalUrl || null, order: form.order ?? items.length + 1 };
       await adm(id ? `/admin/products/${id}` : "/admin/products", { method: id ? "PUT" : "POST", json: body });
-      setForm(null); setMsg("Saved."); await load(); refreshSite();
+      setForm(null); setMsg("Saved."); toast("Product saved"); await load(); refreshSite();
     } catch (err) { setMsg(err instanceof Error ? err.message : "Save failed"); }
   }
 

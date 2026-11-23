@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Camera, Sparkles, UserCheck, Landmark } from "lucide-react";
 
@@ -33,7 +34,7 @@ export function AuditFlow() {
         ))}
       </ol>
       <div className="on-dark rounded-3xl bg-ink p-6 text-paper shadow-2xl" aria-live="polite">
-        <div key={i} className="step-in">
+        <AnimatePresence mode="wait"><motion.div key={i} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.25 }}>
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-accent text-ink"><S.icon size={28} aria-hidden /></div>
           <p className="mt-4 text-xs uppercase tracking-widest text-paper/70">{S.who}</p>
           <h3 className="font-display text-2xl font-bold">{S.t}</h3>
@@ -44,7 +45,7 @@ export function AuditFlow() {
             {i === 2 && <div className="flex gap-2 text-sm"><span className="rounded-lg bg-emerald-500/20 px-3 py-2 text-emerald-300">Approve</span><span className="rounded-lg bg-ink-600 px-3 py-2">Send back</span></div>}
             {i === 3 && <div className="grid grid-cols-2 gap-2 text-center text-sm"><div className="rounded-lg bg-ink-600 py-2">Planned<br /><b>manpower</b></div><div className="rounded-lg bg-ink-600 py-2">Actual<br /><b>manpower</b></div></div>}
           </div>
-        </div>
+        </motion.div></AnimatePresence>
       </div>
     </div>
   );

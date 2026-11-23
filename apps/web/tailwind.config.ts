@@ -5,11 +5,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: "#0B1220", 800: "#111B2E", 700: "#1A2740", 600: "#2A3A58" },
-        paper: { DEFAULT: "#F7F4EE", 200: "#EDE8DE" },
-        // Single accent, taken from the logo. `amber-d` is the AA-safe text shade on light backgrounds.
-        accent: { DEFAULT: "#F59E0B", d: "#8A5000" },
+        // Values come from CSS variables in globals.css, so the accent is swapped in one place.
+        ink: { DEFAULT: "rgb(var(--bg-dark-rgb) / <alpha-value>)", 800: "rgb(var(--bg-dark-elev-rgb) / <alpha-value>)", 700: "rgb(var(--ink-700-rgb) / <alpha-value>)", 600: "rgb(var(--ink-600-rgb) / <alpha-value>)" },
+        paper: { DEFAULT: "rgb(var(--bg-light-soft-rgb) / <alpha-value>)", 200: "rgb(var(--bg-light-sunk-rgb) / <alpha-value>)" },
+        accent: { DEFAULT: "rgb(var(--accent-rgb) / <alpha-value>)", d: "rgb(var(--accent-ink-rgb) / <alpha-value>)" },
       },
+      borderRadius: { sheet: "var(--radius-sheet)", card: "var(--radius-card)" },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

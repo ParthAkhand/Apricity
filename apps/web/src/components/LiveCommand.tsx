@@ -29,14 +29,14 @@ export function LiveCommand() {
       </div>
       <div className="grid gap-3 sm:grid-cols-5">
         <svg viewBox="0 0 300 170" className="rounded-xl bg-ink-700 sm:col-span-3" role="group" aria-label="Ward map. Use the ward list to select a ward.">
-          {[40, 80, 120].map((y) => <line key={y} x1="0" x2="300" y1={y} y2={y} stroke="#2A3A58" />)}
-          {[75, 150, 225].map((x) => <line key={x} y1="0" y2="170" x1={x} x2={x} stroke="#2A3A58" />)}
-          <path d="M10 150 C70 100 110 140 160 85 S250 70 290 30" fill="none" stroke="#F59E0B" strokeOpacity=".4" strokeWidth="2" strokeDasharray="4 5" className="dash-flow" />
+          {[40, 80, 120].map((y) => <line key={y} x1="0" x2="300" y1={y} y2={y} stroke="#2B333B" />)}
+          {[75, 150, 225].map((x) => <line key={x} y1="0" y2="170" x1={x} x2={x} stroke="#2B333B" />)}
+          <path d="M10 150 C70 100 110 140 160 85 S250 70 290 30" fill="none" stroke="#2EE59D" strokeOpacity=".4" strokeWidth="2" strokeDasharray="4 5" className="dash-flow" />
           {wards.map((k, i) => (
             <g key={k.n} onClick={() => setSel(i)} className="cursor-pointer">
-              <circle cx={k.x} cy={k.y} r={i === sel ? 26 : 16} fill="#F59E0B" fillOpacity={i === sel ? 0.22 : 0.1} className="transition-all duration-300" />
-              <circle cx={k.x} cy={k.y} r={i === sel ? 7 : 5} fill={i === sel ? "#F59E0B" : "#7C8DB0"} className={i === sel ? "hero-pulse" : ""} />
-              <text x={k.x} y={k.y + 28} textAnchor="middle" fontSize="9" fill="#C9D3E6">{k.n}</text>
+              <circle cx={k.x} cy={k.y} r={i === sel ? 26 : 16} fill="#2EE59D" fillOpacity={i === sel ? 0.22 : 0.1} className="transition-all duration-300" />
+              <circle cx={k.x} cy={k.y} r={i === sel ? 7 : 5} fill={i === sel ? "#2EE59D" : "#8B9199"} className={i === sel ? "hero-pulse" : ""} />
+              <text x={k.x} y={k.y + 28} textAnchor="middle" fontSize="9" fill="#C5CBD3">{k.n}</text>
             </g>
           ))}
         </svg>

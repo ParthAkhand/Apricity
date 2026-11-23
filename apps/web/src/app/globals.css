@@ -2,10 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens. To rebrand, change --accent, --accent-ink (AA-safe on light) and --accent-glow only. */
+:root {
+  /* RGB channels let Tailwind apply opacity modifiers (ink/30). Keep in sync with the hex tokens. */
+  --bg-dark-rgb: 10 10 10;
+  --bg-dark-elev-rgb: 18 22 26;
+  --ink-700-rgb: 27 33 39;
+  --ink-600-rgb: 43 51 59;
+  --bg-light-soft-rgb: 250 250 250;
+  --bg-light-sunk-rgb: 242 242 242;
+  --accent-rgb: 46 229 157;
+  --accent-ink-rgb: 10 122 82;
+  --bg-dark: #0a0a0a;
+  --bg-dark-elev: #12161a;
+  --ink-700: #1b2127;
+  --ink-600: #2b333b;
+  --bg-light: #ffffff;
+  --bg-light-soft: #fafafa;
+  --bg-light-sunk: #f2f2f2;
+  --accent: #2ee59d;
+  --accent-ink: #0a7a52;
+  --accent-glow: rgba(46, 229, 157, 0.35);
+  --danger: #f26b6b;
+  --radius-sheet: 40px;
+  --radius-card: 24px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-paper font-sans text-ink antialiased; }
-  :focus-visible { @apply outline-2 outline-offset-2 outline-accent-d; }
+  :focus-visible { @apply outline outline-2 outline-offset-2 outline-accent-d; }
   .on-dark :focus-visible { @apply outline-accent; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -14,14 +41,20 @@
 }
 
 @layer components {
-  .btn { @apply inline-flex transition-all duration-200 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold; }
-  .btn-primary { @apply bg-accent text-ink shadow-lg shadow-accent/20 hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-accent/40; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 min-h-[44px]; }
+  .btn-primary { @apply bg-accent text-ink shadow-[0_0_24px_-4px_var(--accent-glow)] hover:-translate-y-0.5 hover:shadow-[0_0_32px_0_var(--accent-glow)] active:translate-y-0.5; }
   .btn-dark { @apply bg-ink text-paper hover:bg-ink-700; }
   .btn-ghost { @apply border border-ink/30 hover:border-ink/70; }
-  .on-dark .btn-ghost { @apply border-paper/40 hover:border-paper; }
+  .on-dark .btn-ghost { @apply border-paper/25 bg-white/5 hover:border-accent hover:shadow-[0_0_20px_-6px_var(--accent-glow)]; }
   .container-x { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
   .eyebrow { @apply font-display text-xs font-semibold uppercase tracking-[0.18em] text-accent-d; }
   .on-dark .eyebrow { @apply text-accent; }
+  /* White content sheet that overlaps the dark hero. */
+  .sheet { @apply relative z-[2] -mt-12 rounded-t-sheet bg-white shadow-[0_-24px_60px_-20px_rgba(0,0,0,0.5)]; }
+  /* Dark card with a cursor-following glow (--mx/--my set by <Spot>). */
+  .spot { position: relative; overflow: hidden; }
+  .spot::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--accent-glow), transparent 60%); }
+  .spot:hover::before { opacity: 0.55; }
 }
 
 @keyframes hero-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -33,14 +66,34 @@
 @keyframes dash-flow { to { stroke-dashoffset: -36; } }
 @keyframes step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(var(--d, 46px)); } }
+@keyframes char-in { from { opacity: 0; filter: blur(8px); transform: translateY(12px); } to { opacity: 1; filter: none; transform: none; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes glow-drift { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(4%, 6%, 0); } }
 .float-slow { animation: float-slow 6s ease-in-out infinite; }
 .dash-flow { animation: dash-flow 2s linear infinite; }
 .step-in { animation: step-in 0.35s ease-out; }
 .scan-line { animation: scan 2.4s ease-in-out infinite; }
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.reveal-on { opacity: 1; transform: none; }
-@media (scripting: none) { .reveal { opacity: 1; transform: none; } }
-.grid-bg { background-image: radial-gradient(rgba(245, 158, 11, 0.18) 1px, transparent 1px); background-size: 26px 26px; }
+.char { display: inline-block; opacity: 0; animation: char-in 0.9s var(--ease-out) forwards; animation-delay: var(--d); }
+.pop { opacity: 0; animation: pop-in 0.6s var(--ease-out) forwards; animation-delay: var(--d); }
+.doodle { stroke-dasharray: 220; stroke-dashoffset: 220; animation: draw 1.2s 1.6s var(--ease-out) forwards; }
+.glow-drift { animation: glow-drift 14s ease-in-out infinite; }
+@media (scripting: none) { .char, .pop { opacity: 1; animation: none; } .doodle { animation: none; stroke-dashoffset: 0; } }
+@keyframes marquee { to { transform: translateX(-100%); } }
+.marquee > ul { animation: marquee 40s linear infinite; }
+.marquee:hover > ul { animation-play-state: paused; }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.skeleton { border-radius: 12px; background: linear-gradient(90deg, rgba(0,0,0,.06) 25%, rgba(0,0,0,.12) 50%, rgba(0,0,0,.06) 75%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+.grid-bg { background-image: radial-gradient(rgba(46, 229, 157, 0.14) 1px, transparent 1px); background-size: 26px 26px; }
+
+/* Hero copy scales down and fades as the sheet slides over it (scroll-driven; ignored where unsupported). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-out { animation: hero-out linear both; animation-timeline: scroll(root); animation-range: 0 60vh; }
+    @keyframes hero-out { to { opacity: 0.25; transform: scale(0.95) translateY(-24px); } }
+  }
+}
 
 /* Skip layout/paint work for below-the-fold sections until they are near the viewport. */
 main > section:not(:first-of-type) { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.sheet > section { content-visibility: auto; contain-intrinsic-size: auto 700px; }

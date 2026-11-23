@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
+import { CalendarCheck, ExternalLink, Mail, MapPin, MessageSquare, Phone } from "lucide-react";
 import { getProducts, getSettings } from "@/lib/api";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero, IconTile } from "@/components/PageHero";
@@ -31,6 +31,24 @@ export default async function Contact() {
           </Reveal>
         </address>
       </div>
+
+      <section className="bg-paper-200 py-16 md:py-24">
+        <div className="container-x">
+          <Reveal>
+            <p className="eyebrow">What to write to us about</p>
+            <h2 className="mt-2 max-w-3xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">Tell us what you need.</h2>
+          </Reveal>
+          <ul className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              { icon: CalendarCheck, t: "A product demo", d: "Tell us your organisation, your role and the product you want to see. Matrix Track 2.0, Matrix Track or both." },
+              { icon: MessageSquare, t: "A question or feedback", d: "Share a question about our products or feedback on what you have seen. We will respond as soon as possible." },
+              { icon: Phone, t: "A direct conversation", d: "Prefer to talk? Call or email using the details above and mention which product you are interested in." },
+            ].map(({ icon: Icon, t, d }, i) => (
+              <li key={t}><Reveal delay={i * 100} className="h-full"><div className="h-full rounded-card border border-ink/10 bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl"><IconTile><Icon aria-hidden /></IconTile><h3 className="mt-4 font-display text-xl font-semibold">{t}</h3><p className="mt-2 text-sm text-ink/70">{d}</p></div></Reveal></li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </>
   );
 }

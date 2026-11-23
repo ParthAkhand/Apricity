@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "@/components/Toaster";
 import { getProducts, getSettings } from "@/lib/api";
 
 const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -48,7 +49,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteLd) }} />
         <Header products={opts} />
         <main id="main">{children}</main>
-        <Footer settings={settings} />
+        <Footer settings={settings} products={products} />
+        <Toaster />
       </body>
     </html>
   );

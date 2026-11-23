@@ -93,3 +93,24 @@ describe("admin API", () => {
     expect(csv.body).toContain(`"'=cmd()"`);
   });
 });
+
+describe("careers upload", () => {
+  const CRLF = String.fromCharCode(13, 10);
+  const send = (filename: string, content: Buffer) => {
+    const b = "XBOUNDARYX";
+    const head = (disp: string, extra = "") => `--${b}${CRLF}Content-Disposition: form-data; ${disp}${CRLF}${extra}${CRLF}`;
+    const field = (n: string, v: string) => head(`name="${n}"`) + v + CRLF;
+    const body = Buffer.concat([
+      Buffer.from(field("first", "Test") + field("email", "cv@example.test") + field("phone", "9999999999")),
+      Buffer.from(head(`name="resume"; filename="${filename}"`, `Content-Type: application/octet-stream${CRLF}`)),
+      content,
+      Buffer.from(`${CRLF}--${b}--${CRLF}`),
+    ]);
+    return app.inject({ method: "POST", url: "/api/v1/careers", headers: { "content-type": `multipart/form-data; boundary=${b}` }, payload: body });
+  };
+  it("accepts a real PDF and rejects a disguised file", async () => {
+    expect((await send("cv.pdf", Buffer.from("%PDF-1.4 test"))).statusCode).toBe(201);
+    expect((await send("cv.pdf", Buffer.from("MZ not a pdf"))).statusCode).toBe(400);
+    expect((await send("run.exe", Buffer.from("MZ"))).statusCode).toBe(400);
+  });
+});

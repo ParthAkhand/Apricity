@@ -7,7 +7,7 @@ import { DemoButton } from "./DemoButton";
 
 const nav = [
   { href: "/products", label: "Products" },
-  { href: "/#solutions", label: "Solutions" },
+  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },

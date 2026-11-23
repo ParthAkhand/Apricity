@@ -1,3 +1,4 @@
+import path from "node:path";
 const secret = process.env.SESSION_SECRET ?? "";
 if (process.env.NODE_ENV === "production" && secret.length < 32) {
   throw new Error("SESSION_SECRET must be at least 32 characters in production");
@@ -17,5 +18,7 @@ export const env = {
     from: process.env.SMTP_FROM || process.env.LEAD_NOTIFY_TO || "info@apricitydigital.in",
     to: process.env.LEAD_NOTIFY_TO ?? "info@apricitydigital.in",
   },
+  // Resume uploads are written here. Back it up and mount a persistent volume in production.
+  uploadDir: path.resolve(process.env.UPLOAD_DIR ?? "uploads"),
   turnstileSecret: process.env.TURNSTILE_SECRET ?? "",
 };

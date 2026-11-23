@@ -3,9 +3,13 @@ import cookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
+import multipart from "@fastify/multipart";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import argon2 from "argon2";
+import { randomUUID } from "node:crypto";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { z, ZodError } from "zod";
 import type { Prisma, PrismaClient, Product as Row } from "@prisma/client";
 import {
@@ -48,6 +52,26 @@ const csvCell = (v: unknown) => {
   return `"${s.replace(/"/g, '""')}"`;
 };
 
+// Resume formats: extension -> content type + first bytes the file must start with.
+const RESUME_TYPES: Record<string, { type: string; magic: number[] }> = {
+  ".pdf": { type: "application/pdf", magic: [0x25, 0x50, 0x44, 0x46] },
+  ".doc": { type: "application/msword", magic: [0xd0, 0xcf, 0x11, 0xe0] },
+  ".docx": { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", magic: [0x50, 0x4b] },
+  ".jpg": { type: "image/jpeg", magic: [0xff, 0xd8, 0xff] },
+  ".jpeg": { type: "image/jpeg", magic: [0xff, 0xd8, 0xff] },
+  ".png": { type: "image/png", magic: [0x89, 0x50, 0x4e, 0x47] },
+};
+const RESUME_MAX_BYTES = 5 * 1024 * 1024;
+
+const CareerInput = z.object({
+  first: z.string().trim().min(1).max(50),
+  last: z.string().trim().max(49).optional().default(""),
+  email: z.string().trim().email().max(200),
+  phone: z.string().trim().min(5).max(30),
+  description: z.string().trim().max(1500).optional().default(""),
+  website: z.string().max(200).optional(),
+});
+
 async function verifyTurnstile(token: string | undefined) {
   if (!env.turnstileSecret) return true;
   if (!token) return false;
@@ -68,6 +92,7 @@ export async function buildApp(prisma: PrismaClient, mailer: Mailer = createMail
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["content-type", "x-csrf-token"],
   });
+  await app.register(multipart, { limits: { fileSize: RESUME_MAX_BYTES, files: 1, fields: 10 } });
   await app.register(cookie, { secret: env.sessionSecret });
   await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });
   await app.register(swagger, {
@@ -173,6 +198,52 @@ export async function buildApp(prisma: PrismaClient, mailer: Mailer = createMail
         },
       );
 
+      // Careers application: multipart form with one resume file. Stored on disk, listed as a lead (source "careers").
+      v1.post(
+        "/careers",
+        { schema: { tags: ["public"], consumes: ["multipart/form-data"] }, config: { rateLimit: { max: 5, timeWindow: "1 minute" } } },
+        async (req, reply) => {
+          const fields: Record<string, string> = {};
+          let file: { name: string; ext: string; buf: Buffer } | undefined;
+          for await (const part of req.parts()) {
+            if (part.type === "field") {
+              fields[part.fieldname] = String(part.value);
+              continue;
+            }
+            const buf = await part.toBuffer();
+            if (part.file.truncated) return reply.code(413).send({ error: "File is too large (max 5 MB)" });
+            file = { name: part.filename, ext: path.extname(part.filename).toLowerCase(), buf };
+          }
+          const input = CareerInput.parse(fields);
+          if (input.website) return reply.code(201).send({ ok: true }); // honeypot
+          if (!file || file.buf.length === 0) return reply.code(400).send({ error: "Please attach your resume" });
+          const kind = RESUME_TYPES[file.ext];
+          if (!kind || !kind.magic.every((b, i) => file!.buf[i] === b)) {
+            return reply.code(400).send({ error: "Unsupported file. Use PDF, Word (doc, docx), JPG or PNG" });
+          }
+          // Random on-disk name: the client's file name is never used as a path.
+          const stored = `${randomUUID()}${file.ext}`;
+          await mkdir(env.uploadDir, { recursive: true });
+          await writeFile(path.join(env.uploadDir, stored), file.buf);
+          const lead = await prisma.lead.create({
+            data: {
+              name: `${input.first} ${input.last}`.trim(),
+              email: input.email,
+              phone: input.phone,
+              message: input.description,
+              source: "careers",
+              resumeFile: stored,
+              resumeName: path.basename(file.name).slice(0, 200),
+            },
+          });
+          mailer(
+            `New career application: ${lead.name}`,
+            [`Name: ${lead.name}`, `Email: ${lead.email}`, `Phone: ${lead.phone}`, `Resume: ${lead.resumeName} (download from Admin > Leads)`, "", lead.message].join("\n"),
+          ).catch((e) => app.log.error(e));
+          return reply.code(201).send({ ok: true });
+        },
+      );
+
       // ---------- admin ----------
       v1.post(
         "/admin/login",
@@ -252,6 +323,18 @@ export async function buildApp(prisma: PrismaClient, mailer: Mailer = createMail
           const { status } = z.object({ status: LeadStatus }).parse(req.body);
           return prisma.lead.update({ where: { id: req.params.id }, data: { status } });
         });
+        admin.get<{ Params: { id: string } }>("/admin/leads/:id/resume", async (req, reply) => {
+          const lead = await prisma.lead.findUnique({ where: { id: req.params.id } });
+          if (!lead?.resumeFile) return reply.code(404).send({ error: "No resume" });
+          const ext = path.extname(lead.resumeFile);
+          const safeName = (lead.resumeName || `resume${ext}`).replace(/[^\w. -]/g, "_");
+          const data = await readFile(path.join(env.uploadDir, path.basename(lead.resumeFile)));
+          return reply
+            .header("content-type", RESUME_TYPES[ext]?.type ?? "application/octet-stream")
+            .header("content-disposition", `attachment; filename="${safeName}"`)
+            .header("x-content-type-options", "nosniff")
+            .send(data);
+        });
         admin.get("/admin/leads.csv", async (_req, reply) => {
           const leads = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
           const head = [
@@ -264,6 +347,7 @@ export async function buildApp(prisma: PrismaClient, mailer: Mailer = createMail
             "phone",
             "productInterest",
             "source",
+            "resumeName",
             "message",
           ] as const;
           const rows = leads.map((l) => head.map((h) => csvCell(l[h])).join(","));

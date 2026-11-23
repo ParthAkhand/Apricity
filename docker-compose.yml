@@ -21,6 +21,8 @@ services:
       SESSION_SECRET: dev-only-compose-secret-change-for-real-deployments
       ADMIN_EMAIL: admin@apricity.local
       ADMIN_PASSWORD: Apricity-Dev-2026
+      UPLOAD_DIR: /data/uploads
+    volumes: [uploads:/data/uploads]
     ports: ["4000:4000"]
     depends_on: { db: { condition: service_healthy } }
   web:
@@ -31,3 +33,4 @@ services:
     depends_on: [api]
 volumes:
   pgdata:
+  uploads:

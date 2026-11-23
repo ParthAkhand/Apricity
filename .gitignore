@@ -12,3 +12,5 @@ CLAUDE.md
 docs/*.tsbuildinfo
 apps/web/tsconfig.tsbuildinfo
 .graphifyignore
+
+apps/api/uploads/

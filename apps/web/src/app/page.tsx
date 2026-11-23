@@ -1,5 +1,7 @@
-import { Building2, ClipboardCheck, GraduationCap, MapPinned, ScanFace, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { BrainCircuit, Building2, GraduationCap, MonitorSmartphone, Radio, ShieldCheck } from "lucide-react";
 import { getProducts, getSettings } from "@/lib/api";
+import { Partners } from "@/components/Partners";
 import { DemoButton } from "@/components/DemoButton";
 import { HeroCommandCentre } from "@/components/HeroCommandCentre";
 import { ProductCard } from "@/components/ProductCard";
@@ -54,28 +56,51 @@ export default async function Home() {
         </ul>
       </section>
 
-      <section id="solutions" className="bg-paper-200 py-16 md:py-20">
+      <section className="bg-paper-200 py-16 md:py-20">
         <div className="container-x grid gap-10 md:grid-cols-2">
           <div>
-            <p className="eyebrow">Platform story</p>
-            <h2 className="mt-2 font-display text-3xl font-bold">From the field to the Commissioner’s desk</h2>
+            <p className="eyebrow">Vision</p>
+            <h2 className="mt-2 font-display text-3xl font-bold">Shaping the future with AI-powered urban innovation</h2>
             <p className="mt-4 text-ink/75">
-              Matrix Track begins with attendance and grows into a full command and control centre: audits, collection monitoring,
-              processing, surveys and a live GIS asset map, with ULB and Commissioner dashboards whose figures match.
+              Our vision is to lead the future of AI-powered solutions, transforming cities and businesses through intelligent automation.
+              We aim to create a world where technology drives innovation and builds smarter, more efficient communities.
             </p>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {[
-              { icon: ScanFace, t: "Facial attendance" },
-              { icon: ClipboardCheck, t: "Geo-tagged sanitation audits" },
-              { icon: MapPinned, t: "Live GIS asset map" },
-              { icon: Building2, t: "Ward scorecards" },
-            ].map(({ icon: Icon, t }) => (
-              <li key={t} className="flex items-center gap-3 rounded-xl bg-white p-4 font-medium"><Icon className="text-accent-d" aria-hidden /> {t}</li>
-            ))}
-          </ul>
+          <div>
+            <p className="eyebrow">Why Apricity</p>
+            <h2 className="mt-2 font-display text-3xl font-bold">Innovating tomorrow with intelligent technology</h2>
+            <p className="mt-4 text-ink/75">
+              Apricity Digital delivers AI-powered solutions that drive innovation and efficiency. From custom apps to data analytics and
+              web design, we create scalable, user-friendly technologies that help businesses and communities thrive in a digital world.
+            </p>
+            <Link href="/services" className="btn btn-dark mt-5">Our services</Link>
+          </div>
         </div>
       </section>
+
+      <section className="container-x py-16 md:py-20">
+        <p className="eyebrow">What we do</p>
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: BrainCircuit, t: "AI-driven solutions" },
+            { icon: MonitorSmartphone, t: "Websites and app development" },
+            { icon: ShieldCheck, t: "Advanced data security" },
+            { icon: Radio, t: "Real-time information" },
+          ].map(({ icon: Icon, t }) => (
+            <li key={t} className="flex items-center gap-3 rounded-xl border border-ink/10 bg-white p-4 font-medium"><Icon className="text-accent-d" aria-hidden /> {t}</li>
+          ))}
+        </ul>
+        <div className="mt-12 max-w-2xl">
+          <p className="eyebrow">Company</p>
+          <h2 className="mt-2 font-display text-3xl font-bold">We improve and innovate with the tech trends</h2>
+          <p className="mt-3 text-ink/75">
+            Our tech team constantly improves our products and services based on customer feedback, and we build new products using
+            cutting-edge technologies and trends in the market.
+          </p>
+        </div>
+      </section>
+
+      <Partners />
 
       <section className="container-x py-16 md:py-20">
         <p className="eyebrow">How it works</p>

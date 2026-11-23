@@ -63,6 +63,9 @@ model Lead {
   productInterest String     @default("")
   message         String     @default("")
   source          String     @default("website")
+  /// Stored resume file name on disk (random), and the original name shown to admins. Empty when none.
+  resumeFile      String     @default("")
+  resumeName      String     @default("")
   status          LeadStatus @default(NEW)
   productId       String?
   product         Product?   @relation(fields: [productId], references: [id], onDelete: SetNull)

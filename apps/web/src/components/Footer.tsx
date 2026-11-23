@@ -16,6 +16,7 @@ export function Footer({ settings: s }: { settings: Settings }) {
           <ul className="space-y-2 text-sm">
             <li><Link className={link} href="/about">About</Link></li>
             <li><Link className={link} href="/products">Products</Link></li>
+            <li><Link className={link} href="/services">Services</Link></li>
             <li><Link className={link} href="/careers">Careers</Link></li>
             <li><Link className={link} href="/contact">Contact</Link></li>
           </ul>

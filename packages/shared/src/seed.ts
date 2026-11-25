@@ -139,4 +139,50 @@ export const seedProducts: ProductInput[] = [
     order: 3,
     published: true,
   },
+  {
+    slug: "matrix-estate",
+    name: "Matrix Estate Management",
+    tagline: "We manage it A to Z",
+    // Wording follows matrixestate.in (client-rendered; text read from its page bundle). CONFIRM with the team.
+    summary:
+      "Helps organizations model, manage and audit their physical estate, from campuses down to individual rooms, with AI and dedicated operations.",
+    audience: ["Campuses and institutions", "Hospitals and corporate branches", "Organizations with multi-site facilities"],
+    modules: [
+      { title: "Organization management", description: "Provision multi-tenant organizations and assign administrators." },
+      { title: "Users and memberships", description: "Link user accounts to organizations and keep track of their access." },
+      { title: "Roles and permissions", description: "Access scoped by organization, by role, and down to individual rooms." },
+      { title: "Physical hierarchy", description: "Organization, Campus, Institute, Building, Floor and Room." },
+      { title: "Physical access control", description: "Explicit access granted per room." },
+      { title: "Contract intelligence", description: "AI-powered contract analysis with facility hierarchy and service classification." },
+    ],
+    features: [
+      "Multi-tenant data isolation between organizations",
+      "Facility complaints and maintenance requests",
+      "Facility discussion threads",
+      "Live patrol tracking through Matrix Track",
+      "Operations run on site for you",
+    ],
+    metrics: [],
+    media: {},
+    content: {
+      headline: "Your whole estate, from campus to room, in one place.",
+      problem: "Facilities spread across sites and vendors are hard to see, govern and audit together.",
+      outcome: "One partner, one unified dashboard, one predictable bill. We deploy the platform and operate your day-to-day facilities.",
+      steps: [
+        { title: "Model", description: "Set up the estate: campus, institute, building, floor and room." },
+        { title: "Assign", description: "Give each user a role scoped to the right part of the estate." },
+        { title: "Operate", description: "Raise requests, track patrols and manage services on site." },
+        { title: "Audit", description: "Review activity and contracts across the estate." },
+      ],
+      faq: [
+        { q: "Is data shared between organizations?", a: "No. Data stays isolated between organizations at every level." },
+        { q: "Can you run operations for us?", a: "Yes. We deploy the platform, operate day-to-day facilities, and add modules as requirements grow." },
+      ],
+      notes: "// CONFIRM: copy summarised from matrixestate.in.",
+    },
+    landingType: "INTERNAL",
+    externalUrl: null,
+    order: 4,
+    published: true,
+  },
 ];

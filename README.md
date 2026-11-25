@@ -1,11 +1,11 @@
 # Apricity Digital: full-stack site
 
-Monorepo (npm workspaces): `apps/web` (Next.js), `apps/api` (Fastify + Prisma + PostgreSQL), `packages/shared` (zod schemas, types, seed data).
+Monorepo (npm workspaces): `apps/web` (Next.js), `apps/api` (Fastify + Prisma + SQLite), `packages/shared` (zod schemas, types, seed data).
 Products are data: edit, reorder or unpublish them in the admin panel, with no code change or redeploy.
 
 ## Quick start
 
-Local dev (Node 20+ and a local PostgreSQL):
+Local dev (Node 20+ and no separate DB server (SQLite file)):
 
 ```
 cp .env.example .env        # then set ADMIN_EMAIL / ADMIN_PASSWORD (dev only) and SESSION_SECRET
@@ -30,7 +30,7 @@ npm run dev                 # web :3000, API :4000
 | `npm run dev` | web + API with reload |
 | `npm run build` | build shared, API, web |
 | `npm run lint` / `npm run typecheck` | ESLint, TypeScript (strict) |
-| `npm test` | API integration tests (need Postgres running and migrated) |
+| `npm test` | API integration tests (need the DB migrated: `npm run db:migrate`) |
 | `npm run db:migrate` / `db:seed` | schema and seed |
 
 ## Environment (see `.env.example`)

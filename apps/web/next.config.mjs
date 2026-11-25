@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Lets `NEXT_DIST=.next-check next build` verify without clobbering a running dev server.
+  distDir: process.env.NEXT_DIST || ".next",
   transpilePackages: ["@apricity/shared"],
   // Inline the (small) stylesheet so it does not block first paint.
   experimental: { inlineCss: true },

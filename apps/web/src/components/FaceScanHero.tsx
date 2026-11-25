@@ -8,7 +8,7 @@ export function FaceScanHero() {
       <div className="grid place-items-center rounded-2xl bg-ink-700 py-8">
         <div className="relative grid h-40 w-40 place-items-center rounded-3xl border-2 border-accent/70">
           <ScanFace size={84} className="text-accent" aria-hidden />
-          <span className="scan-line absolute left-2 right-2 top-3 h-0.5 bg-accent shadow-[0_0_14px_#F59E0B]" style={{ ["--d" as string]: "100px" }} />
+          <span className="scan-line absolute left-2 right-2 top-3 h-0.5 bg-accent shadow-[0_0_14px_#2EE59D]" style={{ ["--d" as string]: "100px" }} />
           {["left-0 top-0 border-l-4 border-t-4", "right-0 top-0 border-r-4 border-t-4", "bottom-0 left-0 border-b-4 border-l-4", "bottom-0 right-0 border-b-4 border-r-4"].map((c) => (
             <span key={c} className={`absolute h-6 w-6 rounded-sm border-accent ${c}`} />
           ))}

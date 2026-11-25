@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "./Toaster";
 import { useState } from "react";
 import { PUBLIC_API_URL } from "@/lib/api";
 
@@ -20,6 +21,7 @@ export function LeadForm({ products, source, defaultProduct = "" }: { products: 
       });
       if (!res.ok) throw new Error(res.status === 429 ? "Too many requests. Please try again in a minute." : "Could not send. Please check the fields and try again.");
       setState("done");
+      toast("Request sent. We will get back to you.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not send.");
       setState("error");

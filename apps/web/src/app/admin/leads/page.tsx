@@ -31,14 +31,14 @@ export default function AdminLeads() {
   async function exportCsv() {
     const text = await adm<string>("/admin/leads.csv");
     const url = URL.createObjectURL(new Blob([text], { type: "text/csv" }));
-    Object.assign(document.createElement("a"), { href: url, download: "leads.csv" }).click();
+    Object.assign(document.createElement("a"), { href: url, download: "enquiries.csv" }).click();
     URL.revokeObjectURL(url);
   }
 
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl font-bold">Leads</h1>
+        <h1 className="font-display text-3xl font-bold">Enquiries</h1>
         <div className="flex items-center gap-3">
           <label className="sr-only" htmlFor="src">Filter by source</label>
           <select id="src" className="rounded border border-ink/25 p-2 text-sm" value={source} onChange={(e) => setSource(e.target.value)}>
@@ -68,7 +68,7 @@ export default function AdminLeads() {
                 </td>
               </tr>
             ))}
-            {leads.length === 0 && <tr><td className="p-6 text-ink/60" colSpan={6}>No leads yet.</td></tr>}
+            {leads.length === 0 && <tr><td className="p-6 text-ink/60" colSpan={6}>No enquiries yet.</td></tr>}
           </tbody>
         </table>
       </div>

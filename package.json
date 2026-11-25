@@ -10,7 +10,6 @@
     "lint": "eslint .",
     "typecheck": "npm run build:shared && npm run typecheck -w @apricity/api && npm run typecheck -w @apricity/web",
     "test": "npm run build:shared && npm test -w @apricity/api",
-    "db:up": "docker compose up -d db",
     "db:migrate": "npm run db:migrate -w @apricity/api",
     "db:seed": "npm run db:seed -w @apricity/api"
   },

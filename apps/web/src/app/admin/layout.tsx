@@ -7,7 +7,7 @@ import { adm, setCsrf } from "@/lib/adminApi";
 const tabs = [
   { href: "/admin", label: "Products" },
   { href: "/admin/settings", label: "Settings" },
-  { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/leads", label: "Enquiries" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [isLogin, router]);
 
   if (isLogin) return <>{children}</>;
-  if (!email) return <p className="container-x py-16 text-sm">Checking session…</p>;
+  if (!email) return <div className="container-x space-y-4 py-16" role="status" aria-label="Checking session"><div className="skeleton h-8 w-1/3" /><div className="skeleton h-24" /><div className="skeleton h-24" /></div>;
   return (
     <div className="container-x py-10">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-ink/10 pb-4">

@@ -26,6 +26,7 @@ export function CountUp({ value }: { value: string }) {
     });
     io.observe(el);
     return () => io.disconnect();
-  }, [m, target]);
+    // Depend on the string, not `m`: the match array is new every render and re-ran this effect on each setN (endless restart loop).
+  }, [value]);
   return <span ref={ref}>{m ? `${n}${suffix}` : value}</span>;
 }

@@ -19,14 +19,14 @@ export function Header({ products }: { products: { slug: string; name: string }[
   const [scrolled, setScrolled] = useState(false);
   const path = usePathname();
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 8);
+    const on = () => setScrolled(window.scrollY > 40);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
   const active = (h: string) => path === h || path.startsWith(`${h}/`);
   return (
-    <header className={`on-dark sticky top-0 z-40 border-b text-paper transition-colors duration-300 ${scrolled ? "border-white/10 bg-ink/85 backdrop-blur-md" : "border-transparent bg-ink"}`}>
+    <header className={`on-dark sticky top-0 z-40 border-b text-paper transition-colors duration-300 ${scrolled ? "border-white/10 bg-ink/70 backdrop-blur-xl" : "border-transparent bg-ink"}`}>
       <div className="container-x flex h-16 items-center justify-between">
         <Link href="/" aria-label="Apricity Digital home" className="flex items-center gap-2">
           <Image src="/apricity-logo.png" alt="" width={36} height={30} priority />
@@ -45,9 +45,9 @@ export function Header({ products }: { products: { slug: string; name: string }[
       </div>
       {open && (
         <nav id="mobile-nav" aria-label="Mobile" className="step-in container-x grid gap-1 pb-4 lg:hidden">
-          {nav.map((n) => (
+          {nav.map((n, i) => (
             <Link key={n.href} href={n.href} onClick={() => setOpen(false)} aria-current={active(n.href) ? "page" : undefined}
-              className={`rounded-lg px-3 py-3 ${active(n.href) ? "bg-accent/15 text-accent" : "text-paper/90"}`}>{n.label}</Link>
+              style={{ animationDelay: `${i * 60}ms` }} className={`step-in rounded-xl px-3 py-3 ${active(n.href) ? "bg-accent/15 text-accent" : "text-paper/90"}`}>{n.label}</Link>
           ))}
           <DemoButton products={products} className="btn btn-primary mt-2" />
         </nav>

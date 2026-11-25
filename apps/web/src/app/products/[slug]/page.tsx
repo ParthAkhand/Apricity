@@ -8,6 +8,9 @@ import { AuditFlow } from "@/components/AuditFlow";
 import { ModuleExplorer } from "@/components/ModuleExplorer";
 import { Reveal } from "@/components/Reveal";
 import { FaceScanHero } from "@/components/FaceScanHero";
+import { Parallax } from "@/components/Parallax";
+import { CoverageRule, DashboardsSplit } from "@/components/Sections";
+import { Check, ScanFace, Users } from "lucide-react";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -50,11 +53,12 @@ export default async function ProductPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
-      <section className="on-dark grid-bg bg-ink text-paper">
-        <div className="container-x grid items-center gap-10 py-16 md:py-24 lg:grid-cols-2">
+      <section className="on-dark grid-bg relative overflow-hidden bg-ink text-paper">
+        <div className="glow-drift pointer-events-none absolute -left-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-accent/15 blur-[120px]" aria-hidden />
+        <div className="container-x relative grid items-center gap-10 pb-28 pt-16 md:pt-24 lg:grid-cols-2">
           <div>
           <p className="eyebrow">{p.name}</p>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">{c.headline || p.tagline}</h1>
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-light leading-tight tracking-[-0.03em] sm:text-6xl">{c.headline || p.tagline}</h1>
           <p className="mt-5 max-w-2xl text-paper/75">{p.summary}</p>
           <div className="mt-8"><DemoButton products={opts} defaultProduct={p.slug} /></div>
           {p.metrics.length > 0 && (
@@ -65,26 +69,28 @@ export default async function ProductPage({ params }: Props) {
             </dl>
           )}
           </div>
-          {p.slug === "matrix-track-2" && <LiveCommand />}
-          {p.slug === "matrix-track" && <FaceScanHero />}
+          <Parallax speed={0.06}>{p.slug === "matrix-track-2" && <LiveCommand />}
+          {p.slug === "matrix-track" && <FaceScanHero />}</Parallax>
         </div>
       </section>
 
+      <div className="sheet">
       {(c.problem || c.outcome) && (
-        <section className="container-x grid gap-8 py-16 md:grid-cols-2">
-          <Reveal><div className="h-full rounded-3xl border border-ink/10 bg-white p-6"><h2 className="eyebrow">The problem</h2><p className="mt-2 text-lg">{c.problem}</p></div></Reveal>
-          <Reveal delay={120}><div className="h-full rounded-3xl bg-accent/15 p-6"><h2 className="eyebrow">The outcome</h2><p className="mt-2 text-lg">{c.outcome}</p></div></Reveal>
+        <section className="container-x grid gap-8 py-16 md:grid-cols-2 md:py-24">
+          <Reveal><div className="h-full rounded-card border border-ink/10 bg-white p-8 md:p-10"><h2 className="eyebrow">The problem</h2><p className="mt-3 font-display text-2xl font-medium leading-snug tracking-tight">{c.problem}</p><p className="mt-4 text-sm text-ink/60">Without one shared record, every report is a separate effort and every figure needs explaining.</p></div></Reveal>
+          <Reveal delay={120}><div className="on-dark h-full rounded-card bg-ink p-8 text-paper shadow-[0_20px_60px_-24px_var(--accent-glow)] md:p-10"><h2 className="eyebrow">The outcome</h2><p className="mt-3 font-display text-2xl font-medium leading-snug tracking-tight">{c.outcome}</p><p className="mt-4 text-sm text-paper/60">The same data feeds every view, so teams spend time acting on figures instead of reconciling them.</p></div></Reveal>
         </section>
       )}
 
       {p.modules.length > 0 && (
-        <section className="bg-paper-200 py-16">
+        <section className="bg-paper-200 py-16 md:py-24">
           <div className="container-x">
             <h2 className="eyebrow">Key modules</h2>
-            <div className="mt-6"><ModuleExplorer modules={p.modules} /></div>
+            <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">What is inside {p.name}</h3>
+            <div className="mt-8"><ModuleExplorer modules={p.modules} audience={p.audience} /></div>
             {p.features.length > 0 && (
-              <ul className="mt-8 flex flex-wrap gap-2">
-                {p.features.map((f) => <li key={f} className="rounded-full border border-ink/20 px-3 py-1 text-sm">{f}</li>)}
+              <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {p.features.map((f) => <li key={f} className="flex items-start gap-3 rounded-2xl border border-ink/10 bg-white p-4 text-sm font-medium"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent text-ink"><Check size={14} aria-hidden /></span>{f}</li>)}
               </ul>
             )}
           </div>
@@ -92,48 +98,76 @@ export default async function ProductPage({ params }: Props) {
       )}
 
       {p.slug === "matrix-track-2" && (
-        <section className="container-x py-16">
-          <h2 className="eyebrow">Sanitation audit flow</h2>
-          <div className="mt-6"><AuditFlow /></div>
+        <>
+          <section className="container-x py-16 md:py-24">
+            <h2 className="eyebrow">Sanitation audit flow</h2>
+            <h3 className="mt-2 max-w-3xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">From a photo to a decision, with a name against every step.</h3>
+            <p className="mt-4 max-w-2xl text-ink/70">Every audit passes through the same four hands. The supervisor captures, AI scores, the Sector In-charge approves and the City Commissioner reviews, so a score is never just a number: it has a photo, a place and a person behind it.</p>
+            <div className="mt-8"><AuditFlow /></div>
+          </section>
+          <CoverageRule />
+          <DashboardsSplit />
+        </>
+      )}
+
+      {p.slug === "matrix-track" && (
+        <section className="container-x py-16 md:py-24">
+          <h2 className="eyebrow">Two ways to mark attendance</h2>
+          <h3 className="mt-2 max-w-3xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">One person at a time, or a whole group in one capture.</h3>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            {[
+              { icon: ScanFace, t: "1:1 attendance", d: "Each person marks their own attendance by face. It suits offices and individual check-ins where every mark must be tied to one person.", b: ["Face match recorded with the mark", "Location attached to each mark", "Leave management alongside"] },
+              { icon: Users, t: "1:N group mode", d: "Capture a whole field crew or classroom in one go, instead of queueing people one by one. It suits places where time at the gate matters.", b: ["Mark a crew or classroom together", "Same verified, location-stamped record", "Rolls up into the same reports"] },
+            ].map((x, i) => (
+              <Reveal key={x.t} delay={i * 120} className="h-full">
+                <div className="on-dark h-full rounded-card bg-ink p-8 text-paper"><span className="grid h-12 w-12 place-items-center rounded-full bg-accent text-ink"><x.icon aria-hidden /></span><h4 className="mt-5 font-display text-2xl font-semibold">{x.t}</h4><p className="mt-3 text-paper/70">{x.d}</p><ul className="mt-5 space-y-2 border-t border-white/10 pt-4 text-sm text-paper/85">{x.b.map((y) => <li key={y} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-accent" aria-hidden />{y}</li>)}</ul></div>
+              </Reveal>
+            ))}
+          </div>
         </section>
       )}
 
       {c.steps.length > 0 && (
-        <section className="container-x py-16">
+        <section className="container-x py-16 md:py-24">
           <h2 className="eyebrow">How it works</h2>
-          <ol className="mt-6 grid gap-5 md:grid-cols-4">
+          <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">{c.steps.length} steps from setup to a result you can read.</h3>
+          <ol className="mt-8 grid gap-5 md:grid-cols-4">
             {c.steps.map((s, i) => (
-              <li key={s.title} className="rounded-2xl border border-ink/10 bg-white p-5 transition hover:-translate-y-1 hover:shadow-lg"><span className="font-display text-2xl font-bold text-accent-d">0{i + 1}</span><h3 className="mt-1 font-display font-bold">{s.title}</h3><p className="mt-1 text-sm text-ink/70">{s.description}</p></li>
+              <li key={s.title} className="rounded-card border border-ink/10 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><span className="font-display text-5xl font-semibold text-accent-d/80">0{i + 1}</span><h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3><p className="mt-2 text-sm text-ink/70">{s.description}</p></li>
             ))}
           </ol>
         </section>
       )}
 
       {p.audience.length > 0 && (
-        <section className="bg-paper-200 py-14">
+        <section className="bg-paper-200 py-16 md:py-24">
           <div className="container-x"><h2 className="eyebrow">Who it is for</h2>
-            <ul className="mt-4 grid gap-3 md:grid-cols-3">{p.audience.map((a) => <li key={a} className="rounded-xl bg-white p-4 font-medium transition hover:-translate-y-1 hover:shadow-lg">{a}</li>)}</ul>
+            <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">Made for the people who use it every day.</h3>
+            <ul className="mt-8 grid gap-4 md:grid-cols-3">{p.audience.map((a, i) => <li key={a} className="rounded-card bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl"><span className="font-display text-3xl font-semibold text-accent-d">0{i + 1}</span><p className="mt-3 font-display text-xl font-semibold">{a}</p></li>)}</ul>
           </div>
         </section>
       )}
 
       {c.faq.length > 0 && (
-        <section className="container-x py-16">
+        <section className="container-x py-16 md:py-24">
           <h2 className="eyebrow">FAQ</h2>
-          <div className="mt-6 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white">
+          <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">Straight answers.</h3>
+          <div className="mt-8 divide-y divide-ink/10 rounded-card border border-ink/10 bg-white">
             {c.faq.map((f) => (
-              <details key={f.q} className="group p-5 open:bg-accent/5"><summary className="cursor-pointer font-display font-bold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
+              <details key={f.q} className="group p-5 open:bg-accent/5"><summary className="cursor-pointer font-display text-lg font-semibold">{f.q}</summary><p className="mt-2 text-ink/75">{f.a}</p></details>
             ))}
           </div>
         </section>
       )}
 
-      <section className="bg-paper-200 py-16">
+      <section className="bg-paper-200 py-16 md:py-24">
         <div className="container-x max-w-3xl">
-          <h2 className="font-display text-3xl font-bold">Request a demo of {p.name}</h2>
+          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-5xl">Request a demo of {p.name}</h2>
+          <p className="mt-3 text-ink/70">Tell us about your organisation and what you want to see. We will arrange a walkthrough on your own use case.</p>
           <div className="mt-6"><LeadForm products={opts} source={`product-${p.slug}`} defaultProduct={p.slug} /></div>
         </div>
       </section>
+    </div>
     </>
   );
 }

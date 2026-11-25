@@ -12,12 +12,12 @@ export function Partners() {
   return (
     <section className="container-x py-16 md:py-20" aria-labelledby="partners-h">
       <p className="eyebrow">Collaboration</p>
-      <h2 id="partners-h" className="mt-2 font-display text-3xl font-bold">Our industry partners</h2>
+      <h2 id="partners-h" className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">Our industry partners</h2>
       <ul className="mt-8 grid gap-6 sm:grid-cols-3">
         {partners.map((p) => {
           const img = <Image src={p.logo} alt={`${p.name} logo`} width={200} height={200} className="h-40 w-40 rounded-2xl object-contain" />;
           return (
-            <li key={p.name} className="flex flex-col items-center rounded-2xl border border-ink/10 bg-white p-6 text-center">
+            <li key={p.name} className="flex flex-col items-center rounded-card border border-ink/10 bg-white p-6 text-center grayscale transition duration-300 hover:grayscale-0 hover:shadow-lg">
               {p.href ? (
                 <a href={p.href} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center">
                   {img}

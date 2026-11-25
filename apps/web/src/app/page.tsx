@@ -2,31 +2,18 @@ import { Sparkles, BrainCircuit, Building2, GraduationCap, MonitorSmartphone, Ra
 import { getProducts, getSettings } from "@/lib/api";
 import { Partners } from "@/components/Partners";
 import { DemoButton } from "@/components/DemoButton";
-import { LiveCommand } from "@/components/LiveCommand";
-import { AuditFlow } from "@/components/AuditFlow";
-import { ModuleExplorer } from "@/components/ModuleExplorer";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { ProductCard } from "@/components/ProductCard";
 import { SplitText } from "@/components/SplitText";
 import { Spot } from "@/components/Spot";
-import { StoryScroll } from "@/components/StoryScroll";
-import { Marquee } from "@/components/Marquee";
-import { Parallax } from "@/components/Parallax";
-import { CoverageRule, DashboardsSplit } from "@/components/Sections";
 
 export default async function Home() {
   const [products, s] = await Promise.all([getProducts(), getSettings()]);
-  const mt2 = products.find((p) => p.slug === "matrix-track-2");
   const opts = products.map((p) => ({ slug: p.slug, name: p.name }));
   const words = s.tagline.split(" ");
   const lead = words.slice(0, -2).join(" ");
   const key = words.slice(-2).join(" ");
-  const steps = [
-    { t: "Register", d: "Add your workforce and your locations: wards, beats and the assets in them. This is the one step that decides how fast results show up." },
-    { t: "Go live", d: "Start on your own data within days. Field staff use the app, supervisors approve reports and the dashboards fill as the work happens." },
-    { t: "Review", d: "Track results on the command dashboard. Measurable results appear in about 2 weeks once all workforce and locations are registered." },
-  ];
   const serve = [
     { icon: Building2, t: "Municipal corporations", d: "Commissioners and ULBs running sanitation and field operations.", b: ["Sanitation audits with geo-tagged photos", "Collection and vehicle monitoring", "Commissioner View across wards"] },
     { icon: ShieldCheck, t: "Enterprises", d: "Heads who need verified attendance and field visibility.", b: ["Face attendance with location", "Leave management", "Planned vs actual manpower"] },
@@ -37,8 +24,8 @@ export default async function Home() {
       <section className="on-dark relative overflow-hidden bg-ink text-paper">
         <div className="glow-drift pointer-events-none absolute -left-40 -top-40 h-[40rem] w-[40rem] rounded-full bg-accent/15 blur-[120px]" aria-hidden />
         <div className="grid-bg pointer-events-none absolute inset-0 opacity-60" aria-hidden />
-        <div className="hero-out container-x relative grid items-center gap-12 pb-28 pt-16 md:grid-cols-2 md:pt-24">
-          <div>
+        <div className="hero-out container-x relative pb-28 pt-16 md:pt-24">
+          <div className="max-w-3xl">
             <p className="eyebrow step-in">{s.brandLine}</p>
             <h1 className="mt-4 font-display text-[clamp(2.5rem,6.5vw,5.5rem)] font-light leading-[1.02] tracking-[-0.03em]">
               <SplitText text={lead} className="text-paper/45" />{" "}
@@ -57,7 +44,6 @@ export default async function Home() {
               </svg>
             </div>
           </div>
-          <Parallax speed={0.08}><LiveCommand /></Parallax>
         </div>
       </section>
 
@@ -71,63 +57,25 @@ export default async function Home() {
         ))}
       </dl>
 
-      <div className="border-y border-ink/10"><Marquee items={mt2?.modules.length ? mt2.modules.map((m) => m.title) : ["Matrix Track", "Swachh Parvv", "Task Force", "MRF and processing", "Survekshan", "Command dashboard"]} /></div>
-
       <section id="products" className="container-x py-16 md:py-20">
         <p className="eyebrow">Our products</p>
         <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">Innovating with AI to transform tomorrow</h2>
-        <p className="mt-4 max-w-2xl text-ink/70">Each product solves one real job for the people running a city or an organisation. Open a card to see what it does, who it is for and how it works.</p>
-        <ul className="mt-8 grid gap-6 md:grid-cols-3">
+        <p className="mt-4 max-w-2xl text-ink/70">Each product solves one real job for the people running a city or an organisation. Open a card to learn more.</p>
+        <ul className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {products.map((p, i) => <li key={p.id}><Reveal delay={i * 120} className="h-full"><ProductCard product={p} /></Reveal></li>)}
         </ul>
       </section>
 
-      <section className="container-x grid items-start gap-10 py-16 md:grid-cols-2 md:py-24">
+      <section className="container-x grid items-start gap-10 py-16 md:grid-cols-2 md:py-20">
         <Reveal>
-          <p className="eyebrow">The platform story</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-5xl">One platform instead of six disconnected tools.</h2>
-          <div className="mt-6 space-y-4 text-ink/70">
-            <p>Attendance, sanitation audits, vehicle monitoring, processing and surveys usually live in different tools, kept by different teams. Leaders see late, partial figures, and field staff enter the same facts more than once.</p>
-            <p>Matrix Track 2.0 brings these together. It starts with Matrix Track, our face-attendance app, and adds Swachh Parvv for civic sanitation audits, Task Force for collection and vehicle monitoring, MRF and processing, Survekshan for surveys and ranking, and a command dashboard with a Commissioner View.</p>
-            <p>Because every module writes to the same record, the dashboards agree with each other, and the work done in the field is visible to decision makers the same day.</p>
-          </div>
+          <p className="eyebrow">About us</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-5xl">A software company building for cities and organisations.</h2>
         </Reveal>
-        <ul className="grid gap-4">
-          {[
-            ["Start small", "Begin with face attendance through Matrix Track and add modules as your operation needs them."],
-            ["Your own data", "A city or organisation goes live on its own data within days, not after a long implementation."],
-            ["Honest timelines", "Measurable results take about 2 weeks, once all workforce and locations are registered."],
-          ].map(([t, d], i) => (
-            <li key={t}><Reveal delay={i * 100}><div className="flex gap-4 rounded-card border border-ink/10 bg-paper-200 p-6"><span className="font-display text-3xl font-semibold text-accent-d">0{i + 1}</span><div><h3 className="font-display text-lg font-semibold">{t}</h3><p className="mt-1 text-sm text-ink/70">{d}</p></div></div></Reveal></li>
-          ))}
-        </ul>
+        <Reveal delay={100}>
+          <p className="text-ink/70">{s.name} is the software brand of {s.parentCompany}, based in Indore. We build products that help municipal corporations, enterprises and institutions run field operations with verified, real-time data.</p>
+          <a href="/about" className="btn btn-ghost mt-6 inline-flex">More about us</a>
+        </Reveal>
       </section>
-
-      <section className="container-x"><StoryScroll /></section>
-
-      <section className="bg-paper-200 py-16 md:py-20">
-        <div className="container-x">
-          <Reveal>
-            <p className="eyebrow">See it work</p>
-            <h2 className="mt-2 font-display text-3xl font-bold">From a photo to a decision, in four steps</h2>
-            <p className="mt-2 max-w-xl text-ink/70">Tap a step. This is the sanitation audit flow inside Matrix Track 2.0: a field supervisor takes a geo-tagged photo, AI gives a hygiene score from 1 to 10, the Sector In-charge approves, and the City Commissioner reviews. Planned versus actual manpower drives penalty deductions.</p>
-          </Reveal>
-          <div className="mt-8"><AuditFlow /></div>
-        </div>
-      </section>
-
-      <CoverageRule />
-      <DashboardsSplit />
-
-      {mt2 && mt2.modules.length > 0 && (
-        <section className="container-x py-16 md:py-20">
-          <Reveal>
-            <p className="eyebrow">One platform</p>
-            <h2 className="mt-2 font-display text-3xl font-bold">Everything in {mt2.name}</h2>
-          </Reveal>
-          <div className="mt-8"><ModuleExplorer modules={mt2.modules} audience={mt2.audience} /></div>
-        </section>
-      )}
 
       <section className="container-x py-16 md:py-20">
         <ul className="grid gap-px overflow-hidden rounded-card border border-ink/10 bg-ink/10 sm:grid-cols-2">
@@ -144,19 +92,6 @@ export default async function Home() {
 
       <Partners />
 
-      <section className="container-x py-16 md:py-20">
-        <p className="eyebrow">How it works</p>
-        <ol className="mt-6 grid gap-6 md:grid-cols-3">
-          {steps.map((x, i) => (
-            <li key={x.t} className="rounded-card border border-ink/10 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl">
-              <span className="font-display text-3xl font-bold text-accent-d">0{i + 1}</span>
-              <h3 className="mt-2 font-display text-xl font-bold">{x.t}</h3>
-              <p className="mt-2 text-sm text-ink/70">{x.d}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       <section className="py-16 md:py-20">
         <div className="container-x">
           <p className="eyebrow">Who we serve</p>
@@ -167,16 +102,6 @@ export default async function Home() {
               <li key={t}><Spot className="on-dark h-full rounded-card border border-white/10 bg-ink-800 p-7 text-paper hover:shadow-[0_20px_60px_-20px_var(--accent-glow)]"><span className="relative grid h-12 w-12 place-items-center rounded-full bg-accent/15"><Icon className="text-accent" aria-hidden /></span><h3 className="relative mt-5 font-display text-xl font-semibold">{t}</h3><p className="relative mt-2 text-sm text-paper/70">{d}</p><ul className="relative mt-5 space-y-2 border-t border-white/10 pt-4 text-sm text-paper/80">{b.map((x) => <li key={x} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />{x}</li>)}</ul></Spot></li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="container-x pb-16 md:pb-24">
-        <p className="eyebrow">Questions</p>
-        <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-5xl">Things people ask first.</h2>
-        <div className="mt-8 divide-y divide-ink/10 rounded-card border border-ink/10 bg-white">
-          {(mt2?.content.faq ?? []).map((f) => (
-            <details key={f.q} className="group p-6 open:bg-accent/5"><summary className="cursor-pointer font-display text-lg font-semibold">{f.q}</summary><p className="mt-3 max-w-3xl text-ink/70">{f.a}</p></details>
-          ))}
         </div>
       </section>
 
